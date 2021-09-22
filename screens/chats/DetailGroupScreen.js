@@ -78,7 +78,7 @@ const DetailGroupScreen = ({navigation, route}) => {
     // console.log(detailGroup);
     // console.log(anggotaGrup);
     const enterUser = (id, Nama, fotoProfil, bio)=> {
-        navigation.navigate("DetailUser", {
+        navigation.navigate("MemberGrup", {
             id,
             Nama,
             fotoProfil,
@@ -117,16 +117,16 @@ const DetailGroupScreen = ({navigation, route}) => {
             >
                 <View style={{marginLeft: 5}}>
                     <Text style={{fontSize: 22, color: "#fff"}}>{route.params.groupName}</Text>
-                    <Text style={{fontSize: 18, color: "#fff"}}>{moment(waktu).format('LLL')}</Text>
+                    <Text style={{fontSize: 18, color: "#fff"}}>Dibuat: {moment(waktu).format('LLL')}</Text>
                 </View>
             </ImageBackground>
-            <View style={{backgroundColor: "#FFF", width: "100%", height: 56}}>
+            <View style={{backgroundColor: "#FFF", width: "100%", height: 62}}>
                 <View style={{paddingLeft: 5}}>
                     <Text style={{fontSize: 22, color: "#8ed1ba"}}>Description</Text>
                     <Text style={{fontSize: 20}}>{detailGroup.deskripsiGrup}</Text>
                 </View>
             </View>
-            <View style={{backgroundColor: "#FFF", marginTop: 5, width: "100%", flex: 1}}>
+            <View style={{backgroundColor: "#FFF", marginTop: 10, width: "100%", flex: 1}}>
                 <View style={{paddingLeft: 5, justifyContent: "space-between"}}>
                     
                         <TouchableOpacity 
@@ -152,6 +152,7 @@ const DetailGroupScreen = ({navigation, route}) => {
                                 Nama={Nama}
                                 fotoProfil={fotoProfil}
                                 bio={bio}
+                                enterUser={enterUser}
                             />
                         ))
                     }

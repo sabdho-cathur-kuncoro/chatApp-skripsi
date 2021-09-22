@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 0.1, 
         backgroundColor: "#A1C6B9", 
-        borderBottomEndRadius: 30, 
+        borderBottomEndRadius: 20, 
         elevation: 2, 
         flexDirection: "row",
         alignItems: "center",
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
         textAlign: "left",
         // fontWeight: "700",
         marginLeft: 10,
-        paddingLeft: 5,
+        // paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         padding: 15,
         maxWidth: "80%",
-        borderRadius: 22
+        borderRadius: 20
     },
     senderText: {
         color: "#000",
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     timeReceiver: {
         color: "#001000",
         fontSize: 10,
-        marginLeft: 15,
+        marginLeft: 10,
         textAlign: "left",
         left: 0,
         bottom: 0,

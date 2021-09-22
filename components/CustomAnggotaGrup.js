@@ -7,9 +7,10 @@ import auth, { firebase } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
-const CustomAnggotaGrup = ({id, Nama, fotoProfil, bio}) => {
+const CustomAnggotaGrup = ({id, Nama, fotoProfil, bio, enterUser}) => {
     return (
         <ListItem 
+            onPress={()=> enterUser(id,Nama,fotoProfil,bio)}
             containerStyle={{height: 80, backgroundColor: "#FFF"}}
             key={id} 
             activeOpacity={0.8}

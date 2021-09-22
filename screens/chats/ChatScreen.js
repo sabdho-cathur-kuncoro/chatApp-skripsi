@@ -32,7 +32,7 @@ const ChatScreen = ({navigation, route}) => {
     const recipientUid = getRecipientUid(route.params.users, user);
     
         // const roomName = user1 + user2;
-    console.log(route.params.users);
+    // console.log(route.params.users);
     // const idUser1 = route.params.idUser1;
     // const idUser2 = route.params.idUser2;
     // const fotoUser1 = route.params.fotoUser1;
@@ -130,7 +130,7 @@ const ChatScreen = ({navigation, route}) => {
                 <TouchableOpacity
                     activeOpacity={1} 
                     style={{marginLeft: 15}}
-                    onPress={()=> navigation.navigate("DetailUser", {idUser: route.params.users[1]})}
+                    onPress={()=> navigation.navigate("DetailUser", {idUser: route.params.users})}
                 >
                     <Text style={{fontSize: 22, color: "#fff"}}>{recipient ? recipient?.Nama : recipientUid[0]}</Text>
                 </TouchableOpacity>
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
         textAlign: "left",
         // fontWeight: "700",
         marginLeft: 10,
-        paddingLeft: 5,
+        // paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         padding: 15,
         maxWidth: "80%",
-        borderRadius: 22
+        borderRadius: 20
     },
     senderText: {
         color: "#000",
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     timeReceiver: {
         color: "#001000",
         fontSize: 10,
-        marginLeft: 15,
+        marginLeft: 10,
         textAlign: "left",
         left: 0,
         bottom: 0,

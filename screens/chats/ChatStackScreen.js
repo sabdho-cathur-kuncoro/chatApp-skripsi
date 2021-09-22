@@ -12,12 +12,15 @@ import GrupChatScreen from './GrupChatScreen';
 import DetailGroupScreen from './DetailGroupScreen';
 import AddGroupParticipant from './AddGroupParticipant';
 import DetailUserScreen from './DetailUserScreen';
+import DetailMemberGrup from './DetailMemberGrup';
 
 const ChatStack = createStackNavigator();
 
 const ChatStackScreen = ({navigation, route}) => {
     useLayoutEffect(() => {
-        const tabHiddenRoutes = ["ChatScreen","SelectContact", "AddGrup","CreateChatPersonal","AddParticipant","GrupChatScreen","DetailGroup"];
+        const tabHiddenRoutes = [
+            "ChatScreen","SelectContact", "AddGrup","CreateChatPersonal","AddParticipant","GrupChatScreen","DetailGroup","DetailUser","MemberGrup"
+        ];
 
         if(tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))){
         navigation.setOptions({tabBarVisible: false});
@@ -46,6 +49,7 @@ const ChatStackScreen = ({navigation, route}) => {
             <ChatStack.Screen name="DetailGroup" component={DetailGroupScreen} />
             <ChatStack.Screen name="AddParticipant" options={{headerShown: false}} component={AddGroupParticipant} />
             <ChatStack.Screen name="DetailUser" component={DetailUserScreen} />
+            <ChatStack.Screen name="MemberGrup" component={DetailMemberGrup} />
         </ChatStack.Navigator>
     )
 }

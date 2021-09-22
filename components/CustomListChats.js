@@ -33,7 +33,7 @@ const CustomListChats = ({id,users,enterChat}) => {
     );
     const recipient = recipientSnapshot?.docs?.[0]?.data();
     const recipientUid = getRecipientUid(users, user);
-    console.log(recipientUid);
+    // console.log(recipientUid);
 
     const getData = ()=> {
         firestore()

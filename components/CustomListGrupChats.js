@@ -25,6 +25,7 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
     //             })
     //         })
     // }
+    const user = auth().currentUser.uid;
     useEffect(() => {
         const unsubscribe = firestore()
                             .collection("groupChat")
@@ -48,7 +49,7 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
                             });
         return unsubscribe;
     }, []);
-    // console.log(chatslist);
+    // console.log(user);
 
     return (
         <ListItem
@@ -67,7 +68,7 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
                         {namaGrup}
                     </ListItem.Title>
                     <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-                        {chatMessages.namaPengirim+ ": "} {chatMessages.isiPesan}
+                        { chatMessages.idPengirim === user ? "You : " : chatMessages.namaPengirim+ ": "} {chatMessages.isiPesan}
                     </ListItem.Subtitle>
                 </ListItem.Content>
                     <ListItem.Subtitle>

@@ -79,6 +79,7 @@ const GrupChatScreen = ({navigation, route}) => {
         
         return unsubscribe;
     }, [route]);
+    console.log(messages);
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -121,17 +122,18 @@ const GrupChatScreen = ({navigation, route}) => {
                             {messages.map(({id, data, waktu})=> (
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
-                                        <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                         <View  style={styles.sender}>
                                             <Text style={styles.senderText}>{data.isiPesan}</Text>
+                                            <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                         </View>
                                     </View>
                                 ) : (
                                     <View key={id} style={styles.bubblesReceiver}>
+                                        <Image source={{uri: data.fotoPengirim}} style={{width: 30, height: 30, borderRadius: 15, marginLeft: 5}} />
                                         <View style={styles.receiver}>
                                             <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
                                         </View>
-                                        <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
                                     </View>
                                 )
                             ))}
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 0.1, 
         backgroundColor: "#A1C6B9", 
-        borderBottomEndRadius: 30, 
+        borderBottomEndRadius: 20, 
         elevation: 2, 
         flexDirection: "row",
         alignItems: "center",
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
     },
     bubbles: {
-        width: "100%", 
+        width: "100%",
         // backgroundColor: "#ECECEC",
         flexDirection: "row", 
         justifyContent: "flex-end"
@@ -191,6 +193,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         backgroundColor: "#ECECEC",
         alignSelf: "flex-start",
+        marginLeft: 5,
         margin: 5,
         borderRadius: 20,
         maxWidth: "80%",
@@ -198,9 +201,11 @@ const styles = StyleSheet.create({
     },
     receiverText: {
         color: "#000",
-        fontSize: 14,
+        fontSize: 16,
+        textAlign: "left",
         // fontWeight: "700",
-        marginLeft: 10
+        marginLeft: 10,
+        // paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -211,24 +216,34 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         padding: 15,
         maxWidth: "80%",
-        borderRadius: 22
+        borderRadius: 20
     },
     senderText: {
         color: "#000",
-        fontSize: 14,
+        paddingRight: 5,
+        fontSize: 16,
+        textAlign: "right",
         // fontWeight: "700",
         marginLeft: 10,
     },
     timeReceiver: {
-        color: "#000",
-        fontSize: 11,
-        marginLeft: 5
+        color: "#001000",
+        fontSize: 10,
+        marginLeft: 10,
+        textAlign: "left",
+        left: 0,
+        bottom: 0,
+        marginTop: 5,
     },
     timeSender: {
-        color: "#000",
-        fontSize: 11,
+        color: "#001000",
+        // position: "absolute",
+        bottom: 0,
+        right: 0,
+        textAlign: "right",
+        fontSize: 10,
         marginRight: 5,
-        marginTop: 15,
+        marginTop: 5,
     },
     footer: {
         flexDirection: "row",
