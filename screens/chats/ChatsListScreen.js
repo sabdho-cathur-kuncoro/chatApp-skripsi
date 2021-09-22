@@ -21,7 +21,7 @@ const ChatsListScreen = ({navigation}) => {
     const [tes2, setTes2] = useState("");
 
     const user = auth().currentUser.uid;
-    const userChatRef = firestore().collection("personalChat").where("users", "array-contains", user);
+    const userChatRef = firestore().collection("personalChat").where("users", "array-contains", user).orderBy("listWaktu","desc");
     const [chatsSnapshot] = useCollection(userChatRef);
 
     const onStateChange = ({ open }) => setState({ open });
@@ -49,17 +49,17 @@ const ChatsListScreen = ({navigation}) => {
     // },[])
     // console.log(tes);
     
-    useEffect(()=> {
-        const unsubscribe = firestore().collection("personalChat").where("users", "array-contains", user)
-                            .onSnapshot((snapshot) =>
-                                    setChatsList(snapshot.docs.map((doc)=> ({
-                                        id: doc.id,
-                                        data: doc.data(),
-                                    })))
-                                );
-        return unsubscribe;
-    },[])
-    console.log(chatsList);
+    // useEffect(()=> {
+    //     const unsubscribe = firestore().collection("personalChat").where("users", "array-contains", user)
+    //                         .onSnapshot((snapshot) =>
+    //                                 setChatsList(snapshot.docs.map((doc)=> ({
+    //                                     id: doc.id,
+    //                                     data: doc.data(),
+    //                                 })))
+    //                             );
+    //     return unsubscribe;
+    // },[])
+    // console.log(chatsList);
     
     // useEffect(()=> {
     //     const unsubscribe = firestore()

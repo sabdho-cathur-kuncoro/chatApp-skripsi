@@ -86,7 +86,7 @@ const ContactScreen = ({navigation}) => {
 
             firestore().collection("personalChat").doc(idPersonal).set({
                 users: [user, id],
-                listOrder: firebase.firestore.FieldValue.serverTimestamp()
+                listWaktu: firebase.firestore.FieldValue.serverTimestamp()
             },{ merge: true })
             .then(
                 navigation.navigate("CreateChatPersonal",{

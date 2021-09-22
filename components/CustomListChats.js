@@ -33,7 +33,7 @@ const CustomListChats = ({id,users,enterChat}) => {
     );
     const recipient = recipientSnapshot?.docs?.[0]?.data();
     const recipientUid = getRecipientUid(users, user);
-    // console.log(user);
+    console.log(recipientUid);
 
     const getData = ()=> {
         firestore()
@@ -66,23 +66,6 @@ const CustomListChats = ({id,users,enterChat}) => {
     }, []);
     // console.log(chatslist);
 
-    // const displaySender = ()=>{
-    //     const chatGrup = <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-    //                     {chatslist.lastSender + ": "}{chatMessages.isiPesan}
-    //                     </ListItem.Subtitle>;
-    //     const chatPrivate = <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-    //                 {chatMessages.isiPesan}
-    //                 </ListItem.Subtitle>;
-
-    //     let senderView = chatGrup;
-    //     // let chatSender = chatPrivate;
-    //     if(chatslist.tipeChat === "Grup"){
-    //     senderView = chatGrup;
-    //     } else if(chatslist.tipeChat === "Private"){
-    //     senderView = chatPrivate;
-    //     };
-    // }
-    
     // const enterChat = (id,users)=> {
     //     navigation.navigate("ChatScreen", {
     //         id: id,

@@ -32,7 +32,7 @@ const ChatScreen = ({navigation, route}) => {
     const recipientUid = getRecipientUid(route.params.users, user);
     
         // const roomName = user1 + user2;
-    console.log(route.params.id);
+    console.log(route.params.users);
     // const idUser1 = route.params.idUser1;
     // const idUser2 = route.params.idUser2;
     // const fotoUser1 = route.params.fotoUser1;
@@ -127,9 +127,13 @@ const ChatScreen = ({navigation, route}) => {
                     ):(<Image style={{width: 42, height: 42, borderRadius: 10}} source={{uri: recipientUid[0]}} />
                     )}
                 </TouchableOpacity>
-                <View style={{marginLeft: 15}}>
+                <TouchableOpacity
+                    activeOpacity={1} 
+                    style={{marginLeft: 15}}
+                    onPress={()=> navigation.navigate("DetailUser", {idUser: route.params.users[1]})}
+                >
                     <Text style={{fontSize: 22, color: "#fff"}}>{recipient ? recipient?.Nama : recipientUid[0]}</Text>
-                </View>
+                </TouchableOpacity>
             </View>
 
             <KeyboardAvoidingView 
@@ -145,17 +149,17 @@ const ChatScreen = ({navigation, route}) => {
                             {messages.map(({id, data, waktu})=> (
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
-                                        <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                         <View  style={styles.sender}>
                                             <Text style={styles.senderText}>{data.isiPesan}</Text>
+                                            <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                         </View>
                                     </View>
                                 ) : (
                                     <View key={id} style={styles.bubblesReceiver}>
                                         <View style={styles.receiver}>
                                             <Text style={styles.receiverText}>{data.isiPesan}</Text>
-                                        </View>
                                             <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
+                                        </View>
                                     </View>
                                 )
                             ))}
@@ -189,8 +193,8 @@ const styles = StyleSheet.create({
     header: {
         flex: 0.1, 
         backgroundColor: "#A1C6B9", 
-        borderBottomEndRadius: 30, 
-        elevation: 2, 
+        borderBottomEndRadius: 20, 
+        // elevation: 1, 
         flexDirection: "row",
         alignItems: "center",
     },
@@ -199,7 +203,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
     },
     bubbles: {
-        width: "100%", 
+        width: "100%",
         // backgroundColor: "#ECECEC",
         flexDirection: "row", 
         justifyContent: "flex-end"
@@ -223,9 +227,11 @@ const styles = StyleSheet.create({
     },
     receiverText: {
         color: "#000",
-        fontSize: 14,
+        fontSize: 16,
+        textAlign: "left",
         // fontWeight: "700",
-        marginLeft: 10
+        marginLeft: 10,
+        paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -240,20 +246,30 @@ const styles = StyleSheet.create({
     },
     senderText: {
         color: "#000",
-        fontSize: 14,
+        paddingRight: 5,
+        fontSize: 16,
+        textAlign: "right",
         // fontWeight: "700",
         marginLeft: 10,
     },
     timeReceiver: {
-        color: "#000",
-        fontSize: 11,
-        marginLeft: 5
+        color: "#001000",
+        fontSize: 10,
+        marginLeft: 15,
+        textAlign: "left",
+        left: 0,
+        bottom: 0,
+        marginTop: 5,
     },
     timeSender: {
-        color: "#000",
-        fontSize: 11,
+        color: "#001000",
+        // position: "absolute",
+        bottom: 0,
+        right: 0,
+        textAlign: "right",
+        fontSize: 10,
         marginRight: 5,
-        marginTop: 15,
+        marginTop: 5,
     },
     footer: {
         flexDirection: "row",

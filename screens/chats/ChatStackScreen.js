@@ -11,6 +11,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import GrupChatScreen from './GrupChatScreen';
 import DetailGroupScreen from './DetailGroupScreen';
 import AddGroupParticipant from './AddGroupParticipant';
+import DetailUserScreen from './DetailUserScreen';
 
 const ChatStack = createStackNavigator();
 
@@ -44,6 +45,7 @@ const ChatStackScreen = ({navigation, route}) => {
             <ChatStack.Screen name="GrupChatScreen" options={{headerShown: false}} component={GrupChatScreen} />
             <ChatStack.Screen name="DetailGroup" component={DetailGroupScreen} />
             <ChatStack.Screen name="AddParticipant" options={{headerShown: false}} component={AddGroupParticipant} />
+            <ChatStack.Screen name="DetailUser" component={DetailUserScreen} />
         </ChatStack.Navigator>
     )
 }

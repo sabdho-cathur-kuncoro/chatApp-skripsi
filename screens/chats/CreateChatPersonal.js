@@ -215,8 +215,8 @@ const CreateChatPersonal = ({navigation, route}) => {
                             {messages.map(({id, data})=> (
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
-                                        <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                         <View  style={styles.sender}>
+                                            <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                             <Text style={styles.senderText}>{data.isiPesan}</Text>
                                         </View>
                                     </View>
@@ -224,8 +224,8 @@ const CreateChatPersonal = ({navigation, route}) => {
                                     <View key={id} style={styles.bubblesReceiver}>
                                         <View style={styles.receiver}>
                                             <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
                                         </View>
-                                        <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
                                     </View>
                                 )
                             ))}
@@ -293,8 +293,11 @@ const styles = StyleSheet.create({
     },
     receiverText: {
         color: "#000",
+        fontSize: 16,
+        textAlign: "left",
         // fontWeight: "700",
-        marginLeft: 10
+        marginLeft: 10,
+        paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -309,19 +312,30 @@ const styles = StyleSheet.create({
     },
     senderText: {
         color: "#000",
+        paddingRight: 5,
+        fontSize: 16,
+        textAlign: "right",
         // fontWeight: "700",
         marginLeft: 10,
     },
     timeReceiver: {
-        color: "#000",
+        color: "#001000",
         fontSize: 10,
-        marginLeft: 5
+        marginLeft: 15,
+        textAlign: "left",
+        left: 0,
+        bottom: 0,
+        marginTop: 5,
     },
     timeSender: {
-        color: "#000",
+        color: "#001000",
+        // position: "absolute",
+        bottom: 0,
+        right: 0,
+        textAlign: "right",
         fontSize: 10,
         marginRight: 5,
-        marginTop: 15,
+        marginTop: 5,
     },
     footer: {
         flexDirection: "row",
