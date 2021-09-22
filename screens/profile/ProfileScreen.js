@@ -334,7 +334,7 @@ const ProfileScreen = ({navigation}) => {
             <View style={{flex: 0.8, elevation: 0, marginLeft: 40, backgroundColor: "#FFF", borderBottomStartRadius: 30, borderTopStartRadius: 30}}>
 
             {/* Foto User */}
-            <TouchableOpacity onPress={()=> {}} activeOpacity={0.5} 
+            <TouchableOpacity onPress={()=> navigation.navigate("ViewFoto",{foto: userData.fotoProfil})} activeOpacity={0.5} 
                 style={styles.image, {left: 90, marginTop: 10}}
             >
                 <ImageBackground

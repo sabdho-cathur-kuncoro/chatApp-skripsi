@@ -27,6 +27,7 @@ const ChatStackScreen = ({navigation, route}) => {
         }else{
         navigation.setOptions({tabBarVisible: true});
         }
+        
         // const routeName = getFocusedRouteNameFromRoute(route);
         // if (routeName === "ChatScreen"){
         //     navigation.setOptions({tabBarVisible: false});

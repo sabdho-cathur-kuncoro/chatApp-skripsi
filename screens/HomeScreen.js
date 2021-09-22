@@ -9,6 +9,7 @@ import firestore from '@react-native-firebase/firestore';
 import ChatStackScreen from './chats/ChatStackScreen';
 import ContactScreen from './contacts/ContactScreen';
 import ProfileScreen from './profile/ProfileScreen';
+import ProfileStack from './profile/ProfileStack';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ const HomeScreen = ({navigation}) => {
             >
           <BottomTab.Screen name="Chats" component={ChatStackScreen} />
           <BottomTab.Screen name="Contacts" component={ContactScreen} />
-          <BottomTab.Screen name="Profile" component={ProfileScreen} />
+          <BottomTab.Screen name="Profile" component={ProfileStack} />
         </BottomTab.Navigator>
     );
 }
