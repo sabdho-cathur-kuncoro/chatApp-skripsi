@@ -1,30 +1,18 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, StyleSheet, RefreshControl } from 'react-native'
+import { View, Image, Text, StyleSheet, RefreshControl } from 'react-native'
 import moment from 'moment'
 
 import auth, { firebase } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import AntDesign from "react-native-vector-icons/AntDesign"
 
 const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
     // const [ chatslist, setChatslist ] = useState([]);
     const [ chatMessages, setChatMessages ] = useState([]);
     const [ waktu, setWaktu ] = useState([]);
 
-    // const getChatslist = ()=> {
-    //     firestore()
-    //         .collection("Chatslist")
-    //         .doc(auth().currentUser.uid)
-    //         .collection("ChatsID")
-    //         .where("tipeChat", "==", "Grup")
-    //         .onSnapshot(querySnapshot => {
-    //             querySnapshot.forEach(documentSnapshot => {
-    //                 console.log('Chatslist: ', documentSnapshot.id, documentSnapshot.data());
-    //                 setChatslist(documentSnapshot.data());
-    //             })
-    //         })
-    // }
     const user = auth().currentUser.uid;
     useEffect(() => {
         const unsubscribe = firestore()
@@ -68,7 +56,18 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
                         {namaGrup}
                     </ListItem.Title>
                     <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-                        { chatMessages.idPengirim === user ? "You : " : chatMessages.namaPengirim+ ": "} {chatMessages.isiPesan}
+                        { chatMessages.idPengirim === user ? (
+                            "You: "
+                        ):(
+                            chatMessages.namaPengirim+ ": "
+                        )} {chatMessages.tipePesan === "teks" ? (
+                            chatMessages.isiPesan
+                        ):(
+                            <View style={{flexDirection: "row"}}>
+                                <AntDesign name="picture" size={20} color="#8c8f8e" style={{marginRight: 5}} />
+                                <Text style={{color: "#8c8f8e"}}>{chatMessages.isiPesan === null ? "Image" : chatMessages.isiPesan}</Text>
+                            </View>
+                        ) }
                     </ListItem.Subtitle>
                 </ListItem.Content>
                     <ListItem.Subtitle>

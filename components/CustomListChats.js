@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, StyleSheet, RefreshControl, ImageBackground } from 'react-native'
+import { View, Image, StyleSheet, Text, RefreshControl, ImageBackground } from 'react-native'
 import moment from 'moment'
 import CustomListGrupChats from './CustomListGrupChats';
 
@@ -10,7 +10,7 @@ import firestore from '@react-native-firebase/firestore';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import getRecipientUid from '../utils/getRecipientUid';
-
+import AntDesign from "react-native-vector-icons/AntDesign"
 
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -95,7 +95,13 @@ const CustomListChats = ({id,users,enterChat}) => {
                         {recipient ? recipient?.Nama : recipientUid[0]}
                     </ListItem.Title>
                     <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-                       {chatMessages.isiPesan}
+                       {chatMessages.tipePesan === "teks" ? 
+                            chatMessages.isiPesan :
+                            <View style={{flexDirection: "row"}}>
+                                <AntDesign name="picture" size={20} color="#8c8f8e" style={{marginRight: 5}} />
+                                <Text style={{color: "#8c8f8e"}}>{chatMessages.isiPesan === null ? "Image" : chatMessages.isiPesan}</Text>
+                            </View>
+                        }
                     </ListItem.Subtitle>
                 </ListItem.Content>
                     <ListItem.Subtitle>
