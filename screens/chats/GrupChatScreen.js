@@ -10,6 +10,8 @@ import auth, { firebase } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
+import ImagePicker from 'react-native-image-crop-picker';
+
 const GrupChatScreen = ({navigation, route}) => {
     const [input, setInput] = useState("");
     const [userData, setUserData] = useState('');
@@ -37,6 +39,27 @@ const GrupChatScreen = ({navigation, route}) => {
     },[])
     // console.log(userData);
 
+    const choosePhotoFromLibrary = ()=> {
+        ImagePicker.openPicker({
+            width: 800,
+            height: 800,
+            cropping: true,
+            compressImageQuality: 0.7,
+          }).then((image) => {
+            console.log(image);
+            const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+            // setImage(imageUri);
+            navigation.navigate("PreviewImageGroup", {
+                image: imageUri,
+                chatID: route.params.id,
+                idPengirim: userData.idUser,
+                namaPengirim: userData.nama,
+                fotoPengirim: userData.foto,
+            })
+          });
+    }
+    console.log(route.params.id);
+
     const createChats = ()=> {
 
         firestore().collection("groupChat")
@@ -47,6 +70,7 @@ const GrupChatScreen = ({navigation, route}) => {
                 namaPengirim: userData.nama,
                 fotoPengirim: userData.foto,
                 isiPesan: input,
+                tipePesan: "teks",
                 waktuPesan: firebase.firestore.FieldValue.serverTimestamp()
             });
             setInput("");
@@ -79,7 +103,7 @@ const GrupChatScreen = ({navigation, route}) => {
         
         return unsubscribe;
     }, [route]);
-    console.log(messages);
+    // console.log(messages);
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -123,7 +147,17 @@ const GrupChatScreen = ({navigation, route}) => {
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
                                         <View  style={styles.sender}>
-                                            <Text style={styles.senderText}>{data.isiPesan}</Text>
+                                            {data.tipePesan === "teks" ? (
+                                                <Text style={styles.senderText}>{data.isiPesan}</Text>
+                                            ): (
+                                                <>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImageGroup",{img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                    <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
+                                                </TouchableOpacity>
+                                                <Text>{data.isiPesan}</Text>
+                                                </>
+                                                )
+                                            }
                                             <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                         </View>
                                     </View>
@@ -131,7 +165,16 @@ const GrupChatScreen = ({navigation, route}) => {
                                     <View key={id} style={styles.bubblesReceiver}>
                                         <Image source={{uri: data.fotoPengirim}} style={{width: 30, height: 30, borderRadius: 15, marginLeft: 5}} />
                                         <View style={styles.receiver}>
-                                            <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            {data.tipePesan === "teks" ? (
+                                                <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            ) : (
+                                                <>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImageGroup", {img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                    <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
+                                                </TouchableOpacity>
+                                                <Text>{data.isiPesan}</Text>
+                                                </>
+                                            )}
                                             <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
                                         </View>
                                     </View>
@@ -139,13 +182,18 @@ const GrupChatScreen = ({navigation, route}) => {
                             ))}
                 </ScrollView>
                 <View style={styles.footer}>
+                <View style={styles.textInput}>
                     <TextInput 
                         value={input}
                         onChangeText={(text)=> setInput(text)}
                         onSubmitEditing={createChats}
                         placeholder="Ketik pesan.."
-                        style={styles.textInput}
                     />
+                    <TouchableOpacity onPress={choosePhotoFromLibrary} activeOpacity={0.8} style={{justifyContent: "center"}}>
+                        <AntDesign name="paperclip" size={28} color="#7a7878" />
+                    </TouchableOpacity>
+                    </View>
+
                     <TouchableOpacity 
                         onPress={createChats}
                         activeOpacity={0.5}>
@@ -253,13 +301,15 @@ const styles = StyleSheet.create({
     },
     textInput: {
         bottom: 0,
-        height: 46,
+        height: 48,
         flex: 1,
         backgroundColor: "#ECECEC",
         borderRadius: 30,
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         borderColor: "transparent",
-        color: "grey"
+        color: "grey",
+        flexDirection: "row",
+        justifyContent: "space-between"
     }
 })

@@ -8,9 +8,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const ContactScreen = ({navigation}) => {
     const [contacts, setContacts] = useState([]);
-    const [userData, setUserData] = useState('');
-    const [data, setData] = useState([]);
-
     
     const user = auth().currentUser.uid;
 
@@ -18,8 +15,6 @@ const ContactScreen = ({navigation}) => {
         firestore()
             .collection('Contacts')
             .where('contactIn', 'array-contains', user)
-            // .doc(user.uid)
-            // .collection('UserID')
             .onSnapshot((snapshot)=>
                 setContacts(snapshot.docs.map((doc)=> ({
                     id: doc.id,
@@ -28,47 +23,13 @@ const ContactScreen = ({navigation}) => {
                 )
             );
     }
-    // const getUser = ()=> {
-    //     firestore()
-    //         .collection('Users')
-    //         .doc(user.uid)
-    //         .onSnapshot(documentSnapshot => {
-    //             // console.log('User data: ', documentSnapshot.data());
-
-    //             const id = documentSnapshot.get("uid");
-    //             const nama = documentSnapshot.get("Nama");
-    //             const foto = documentSnapshot.get("fotoProfil")
-    //             setUserData({
-    //                 idPengirim: id,
-    //                 namaPengirim: nama,
-    //                 fotoPengirim: foto,
-    //             });
-    //         })
-    // }
 
     useEffect(()=> {
         const unsubscribe = getContact();
-                            // getUser();
-                            // gabunganData();
-                            // setData(contacts.join(userData));
 
         return unsubscribe;
     }, []);
 
-    // console.log(id);
-    // console.log('User ',userData);
-    // console.log('Data Contact ', contacts);
-
-    // const enterChats = (id, displayName, displayFoto)=> {
-    //         navigation.replace("CreateChatPersonal", {
-    //             id,
-    //             displayName,
-    //             displayFoto,
-    //         })
-    // }
-
-
-    // console.log(user1+', '+user2+' => '+ roomName);
 
     const chatAlreadyExists = (recipientUid) => 
         !!chatsSnapshot?.docs.find(
@@ -76,26 +37,11 @@ const ContactScreen = ({navigation}) => {
                 chat.data().users.find((user)=> user === recipientUid)?.length > 0
         );
     const createChat = (id,displayName,displayFoto)=> {
-        // var user1 = user; // UID of user 1
-        // var user2 = id; // UID of user 2
-    
-        // var roomName = 'chat_'+ user2;
-        const randomNumber = Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 100);
-        const idPersonal = "Personal_" + randomNumber;
-        console.log(idPersonal);
-
-            firestore().collection("personalChat").doc(idPersonal).set({
-                users: [user, id],
-                listWaktu: firebase.firestore.FieldValue.serverTimestamp()
-            },{ merge: true })
-            .then(
-                navigation.navigate("CreateChatPersonal",{
-                    idPersonal: idPersonal,
-                    users: id,
-                    displayName,
-                    displayFoto
-                })
-            )
+        navigation.navigate("CreateChatPersonal",{
+            id,
+            displayName,
+            displayFoto
+        })
     };
 
     return (

@@ -13,13 +13,17 @@ import DetailGroupScreen from './DetailGroupScreen';
 import AddGroupParticipant from './AddGroupParticipant';
 import DetailUserScreen from './DetailUserScreen';
 import DetailMemberGrup from './DetailMemberGrup';
+import PreviewChatImage from './PreviewChatImage';
+import ViewImageChat from './ViewImageChat';
+import PreviewGroupImage from './PreviewGroupImage';
+import ViewImageGroup from './ViewImageGroup';
 
 const ChatStack = createStackNavigator();
 
 const ChatStackScreen = ({navigation, route}) => {
     useLayoutEffect(() => {
         const tabHiddenRoutes = [
-            "ChatScreen","SelectContact", "AddGrup","CreateChatPersonal","AddParticipant","GrupChatScreen","DetailGroup","DetailUser","MemberGrup"
+            "ChatScreen","SelectContact", "AddGrup","CreateChatPersonal","AddParticipant","GrupChatScreen","DetailGroup","DetailUser","MemberGrup","PreviewImage","ViewImage","PreviewImageGroup","ViewImageGroup"
         ];
 
         if(tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))){
@@ -51,6 +55,10 @@ const ChatStackScreen = ({navigation, route}) => {
             <ChatStack.Screen name="AddParticipant" options={{headerShown: false}} component={AddGroupParticipant} />
             <ChatStack.Screen name="DetailUser" component={DetailUserScreen} />
             <ChatStack.Screen name="MemberGrup" component={DetailMemberGrup} />
+            <ChatStack.Screen name="PreviewImage" options={{headerShown: false}} component={PreviewChatImage} />
+            <ChatStack.Screen name="ViewImage" options={{headerShown: false}} component={ViewImageChat} />
+            <ChatStack.Screen name="PreviewImageGroup" options={{headerShown: false}} component={PreviewGroupImage} />
+            <ChatStack.Screen name="ViewImageGroup" options={{headerShown: false}} component={ViewImageGroup} />
         </ChatStack.Navigator>
     )
 }

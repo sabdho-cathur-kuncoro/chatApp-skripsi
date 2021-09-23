@@ -9,48 +9,26 @@ import moment from 'moment'
 import auth, { firebase } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-
+import ImagePicker from 'react-native-image-crop-picker';
 
 const CreateChatPersonal = ({navigation, route}) => {
     const [input, setInput] = useState("");
-    const [userData, setUserData] = useState('');
     const [messages, setMessages] = useState([]);
     const [waktu, setWaktu] = useState([]);
     const scrollViewRef = useRef();
 
     const user = auth().currentUser.uid;
+    const user2 = route.params.id; // UID of user 2
     
-        // const randomNumber = Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 100);
-        // const idPersonal = "Personal_" + randomNumber;
+    const idPersonal = user +'_'+ user2;
+    console.log(idPersonal);
 
-    useEffect(()=> {
-        const unsubscribe = firestore()
-                            .collection('Users')
-                            .doc(user)
-                            .onSnapshot(documentSnapshot => {
-                                // console.log('User data: ', documentSnapshot.data());
-
-                                const id = documentSnapshot.get("uid");
-                                const nama = documentSnapshot.get("Nama");
-                                const foto = documentSnapshot.get("fotoProfil")
-                                setUserData({
-                                    idPengirim: id,
-                                    namaPengirim: nama,
-                                    fotoPengirim: foto,
-                                });
-                            })
-                            
-        return unsubscribe;
-    },[])
     useEffect(()=> {
         const unsubscribe = 
                             firestore()
                             .collection("personalChat")
-                            .doc(route.params.id)
+                            .doc(idPersonal)
                             .collection("pesanPersonal")
-                            // .collection("Chats")
-                            // .doc(route.params.id)
-                            // .collection("Messages")
                             .onSnapshot(querySnapshot => {
                                 querySnapshot.forEach(documentSnapshot => {
                                     const timestamp = documentSnapshot.get("waktuPesan");
@@ -65,101 +43,55 @@ const CreateChatPersonal = ({navigation, route}) => {
         return unsubscribe;
     },[])
 
-        // const roomName = user1 + user2;
-    // console.log(roomName);
-    console.log(route.params.users);
-    console.log("idPersonal ",route.params.idPersonal);
+    const choosePhotoFromLibrary = ()=> {
+        ImagePicker.openPicker({
+            width: 800,
+            height: 800,
+            cropping: true,
+            compressImageQuality: 0.7,
+          }).then((image) => {
+            console.log(image);
+            const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+            // setImage(imageUri);
+            navigation.navigate("PreviewImage", {
+                image: imageUri,
+                chatID: idPersonal
+            })
+          });
+    }
+    // console.log(route.params.id);
+    // console.log("idPersonal ",route.params.idPersonal);
     
     const sendMessage = ()=> {
         firestore()
             .collection("personalChat")
-            .doc(route.params.idPersonal)
+            .doc(idPersonal)
             .collection("pesanPersonal")
-            // .collection("Chats")
-            // .doc(route.params.id)
-            // .collection("Messages")
             .add({
                 waktuPesan: firebase.firestore.FieldValue.serverTimestamp(),
-                chatsID: route.params.id,
+                chatsID: idPersonal,
                 isiPesan: input,
                 idPengirim: user,
-                // idPenerima: route.params.id, // Maybe tidak perlu
+                tipePesan: "teks"
             });
         
             setInput("");
     };
-    // const createChatlist = ()=> {
-    //     firestore()
-    //         .collection("listPersonalChat")
-    //         .doc(user)
-    //         .set({
-    //             chatDengan: firestore.FieldValue.arrayUnion(route.params.id),
-    //             chatID: route.params.id,
-    //             displayName: userData.namaPengirim,
-    //             displayFoto: userData.fotoPengirim,
-    //             // key: [route.params.id],
-    //             listWaktu: firebase.firestore.FieldValue.serverTimestamp()
-    //         });
-    //         // .collection("Chatslist")
-    //         // .doc(user) // JEFF BEZOS
-    //         // .collection("ChatsID")
-    //         // .doc(route.params.id)
-    //         // .set({
-    //         //     waktuPesan: firebase.firestore.FieldValue.serverTimestamp(),
-    //         //     chatsID: route.params.id,
-    //         //     idPengirimPertama: user, // JEFF BEZOS
-    //         //     // namaPengirim: userData.namaPengirim, // JEFF BEZOS
-    //         //     // namaPenerima: route.params.displayName, // ELON MUSK
-    //         //     // fotoPengirim: userData.fotoPengirim,
-    //         //     // fotoPenerima: route.params.displayFoto,
-    //         //     displayName: route.params.displayName, // MASIH SALAH
-    //         //     displayFoto: route.params.displayFoto, // MASIH SALAH
-    //         //     tipeChat: "Private"
-    //         //     // member: [
-    //         //     //     user1,
-    //         //     //     user2
-    //         //     // ]
-    //         // });
-    // };
-    // const createChatlistCopy = ()=> {
-    //     firestore()
-    //         .collection("listPersonalChat")
-    //         .doc(route.params.id)
-    //         .set({
-    //             chatDengan: firestore.FieldValue.arrayUnion(user),
-    //             chatID: route.params.id,
-    //             displayName: route.params.displayName,
-    //             displayFoto: route.params.displayFoto,
-    //             // key: [user],
-    //             listWaktu: firebase.firestore.FieldValue.serverTimestamp()
-    //         });
-    //         // .collection("Chatslist")
-    //         // .doc(route.params.id) // USER 2
-    //         // .collection("ChatsID")
-    //         // .doc(route.params.id) 
-    //         // .set({
-    //         //     waktuPesan: firebase.firestore.FieldValue.serverTimestamp(),
-    //         //     chatsID: route.params.id,
-    //         //     idPengirimPertama: user, // JEFF BEZOS
-    //         //     // namaPengirim: userData.namaPengirim, // JEFF BEZOS
-    //         //     // namaPenerima: route.params.displayName, // ELON MUSK
-    //         //     // fotoPengirim: userData.fotoPengirim,
-    //         //     // fotoPenerima: route.params.displayFoto,
-    //         //     displayName: userData.namaPengirim,
-    //         //     displayFoto: userData.fotoPengirim,
-    //         //     tipeChat: "Private"
-    //         // })
-    // }
+    const createChatlist = ()=> {
+            firestore().collection("personalChat").doc(idPersonal).set({
+                users: [user, user2],
+                listWaktu: firebase.firestore.FieldValue.serverTimestamp()
+            },{ merge: true })
+    }
     const createChats =  ()=> {
         sendMessage();
-        // createChatlist();
-        // createChatlistCopy();
+        createChatlist();
     }
 
     useLayoutEffect(() => {
         const unsubscribe = firestore()
                             .collection("personalChat")
-                            .doc(route.params.idPersonal)
+                            .doc(idPersonal)
                             .collection("pesanPersonal")
                             .orderBy("waktuPesan", "asc")
                             .onSnapshot((snapshot)=> 
@@ -199,10 +131,6 @@ const CreateChatPersonal = ({navigation, route}) => {
                 </View>
             </View>
 
-            {/* <View style={{flex: 1, backgroundColor: "#ECECEC"}}>
-                
-            </View> */}
-
             <KeyboardAvoidingView 
                 style={styles.screen} 
                 keyboardVerticalOffset={90}
@@ -216,14 +144,33 @@ const CreateChatPersonal = ({navigation, route}) => {
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
                                         <View  style={styles.sender}>
+                                        {data.tipePesan === "teks" ? (
+                                                <Text style={styles.senderText}>{data.isiPesan}</Text>
+                                            ) : (
+                                                <>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage",{img: data.urlGambar, caption: data.isiPesan})}>
+                                                    <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
+                                                </TouchableOpacity>
+                                                <Text>{data.isiPesan}</Text>
+                                                </>
+                                                )
+                                            }
                                             <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
-                                            <Text style={styles.senderText}>{data.isiPesan}</Text>
                                         </View>
                                     </View>
                                 ) : (
                                     <View key={id} style={styles.bubblesReceiver}>
                                         <View style={styles.receiver}>
-                                            <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            {data.tipePesan === "teks" ? (
+                                                <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            ) : (
+                                                <>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage", {img: data.urlGambar, caption: data.isiPesan})}>
+                                                    <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
+                                                </TouchableOpacity>
+                                                <Text>{data.isiPesan}</Text>
+                                                </>
+                                            )}
                                             <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
                                         </View>
                                     </View>
@@ -232,13 +179,18 @@ const CreateChatPersonal = ({navigation, route}) => {
                 </ScrollView>
 
                 <View style={styles.footer}>
-                    <TextInput 
-                        value={input}
-                        onChangeText={(text)=> setInput(text)}
-                        onSubmitEditing={createChats}
-                        placeholder="Ketik pesan.."
-                        style={styles.textInput}
-                    />
+                    <View style={styles.textInput}>
+                        <TextInput 
+                            value={input}
+                            onChangeText={(text)=> setInput(text)}
+                            onSubmitEditing={createChats}
+                            placeholder="Ketik pesan.."
+                        />
+                        <TouchableOpacity onPress={choosePhotoFromLibrary} activeOpacity={0.8} style={{justifyContent: "center"}}>
+                            <AntDesign name="paperclip" size={28} color="#7a7878" />
+                        </TouchableOpacity>
+                    </View>
+                    
                     <TouchableOpacity 
                         onPress={createChats}
                         activeOpacity={0.5}>
@@ -345,13 +297,15 @@ const styles = StyleSheet.create({
     },
     textInput: {
         bottom: 0,
-        height: 46,
+        height: 48,
         flex: 1,
         backgroundColor: "#ECECEC",
         borderRadius: 30,
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         borderColor: "transparent",
-        color: "grey"
+        color: "grey",
+        flexDirection: "row",
+        justifyContent: "space-between"
     }
 })

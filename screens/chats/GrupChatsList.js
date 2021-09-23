@@ -19,23 +19,6 @@ const GrupChatsList = ({navigation}) => {
 
     const onStateChange = ({ open }) => setState({ open });
     const { open } = state;
-
-    // useEffect(()=> {
-    //     // const user = auth().currentUser.uid;
-    //     const unsubscribe = firestore()
-    //                             .collection("groupChatlist")
-    //                             // .doc(user)
-    //                             // .collection("GroupID")
-    //                             .orderBy("timestamp", "desc")
-    //                             .onSnapshot((snapshot) =>
-    //                                 setGroupChatslist(snapshot.docs.map((doc)=> ({
-    //                                     id: doc.id,
-    //                                     data: doc.data(),
-    //                                 })))
-    //                             );
-    //     return unsubscribe;
-    // },[])
-    // console.log(groupChatslist);
     
     const getData = ()=> {
         const user = auth().currentUser.uid;

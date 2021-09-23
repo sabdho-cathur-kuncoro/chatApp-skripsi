@@ -13,32 +13,38 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import getRecipientUid from '../../utils/getRecipientUid';
 
+import ImagePicker from 'react-native-image-crop-picker';
 
 const ChatScreen = ({navigation, route}) => {
     const [input, setInput] = useState("");
-    const [userData, setUserData] = useState('');
     const [messages, setMessages] = useState([]);
-    const [ chatsList, setChatsList ] = useState([]);
-    // const [ waktu, setWaktu ] = useState([]);
+
     const scrollViewRef = useRef();
     const userLogin = auth().currentUser.uid;
 
     const [user] = useAuthState(auth());
-
     const [recipientSnapshot] = useCollection(
         firestore().collection("Users").where("uid", "==", getRecipientUid(route.params.users, user))
     );
     const recipient = recipientSnapshot?.docs?.[0]?.data();
     const recipientUid = getRecipientUid(route.params.users, user);
-    
-        // const roomName = user1 + user2;
     // console.log(route.params.users);
-    // const idUser1 = route.params.idUser1;
-    // const idUser2 = route.params.idUser2;
-    // const fotoUser1 = route.params.fotoUser1;
-    // const fotoUser2 = route.params.fotoUser2;
-    // const namaUser1 = route.params.namaUser1;
-    // const namaUser2 = route.params.namaUser2;
+    const choosePhotoFromLibrary = ()=> {
+        ImagePicker.openPicker({
+            width: 800,
+            height: 800,
+            cropping: true,
+            compressImageQuality: 0.7,
+          }).then((image) => {
+            console.log(image);
+            const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+            // setImage(imageUri);
+            navigation.navigate("PreviewImage", {
+                image: imageUri,
+                chatID: route.params.id
+            })
+          });
+    }
     
     const sendMessage = ()=> {
         firestore().collection("personalChat")
@@ -49,7 +55,7 @@ const ChatScreen = ({navigation, route}) => {
                 chatsID: route.params.id,
                 isiPesan: input,
                 idPengirim: userLogin,
-                // idPenerima: route.params.id, // Maybe tidak perlu
+                tipePesan: "teks"
             });
         
             setInput("");
@@ -57,25 +63,14 @@ const ChatScreen = ({navigation, route}) => {
     const createChatlist = ()=> {
         firestore().collection("personalChat")
             .doc(route.params.id)
-            // .collection("pesanPersonal")
-            // .doc(route.params.id)
             .update({
                 listWaktu: firebase.firestore.FieldValue.serverTimestamp(),
             });
     };
-    // const createChatlistCopy = ()=> {
-    //     firestore().collection("Chatslist")
-    //         .doc(route.params.id)
-    //         .collection("ChatsID")
-    //         .doc(route.params.id) 
-    //         .update({
-    //             waktuPesan: firebase.firestore.FieldValue.serverTimestamp(),
-    //         })
-    // }
+
     const createChats =  ()=> {
         sendMessage();
         createChatlist();
-        // createChatlistCopy();
     }
 
     useLayoutEffect(() => {
@@ -101,11 +96,6 @@ const ChatScreen = ({navigation, route}) => {
         return unsubscribe;
     }, [route]);
     
-    // console.log("Waktu ", waktu);
-    // console.log(route.params.id);
-    // console.log("Data: ",messages);
-    // console.log("Data Chat: ", chatsList);
-
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -141,7 +131,6 @@ const ChatScreen = ({navigation, route}) => {
                 keyboardVerticalOffset={90}
             >
                 <>
-                {/* <View style={{flex: 1, backgroundColor: "#ECECEC"}}> */}
                 <ScrollView 
                 ref={scrollViewRef}
                 onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
@@ -150,33 +139,56 @@ const ChatScreen = ({navigation, route}) => {
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
                                         <View  style={styles.sender}>
-                                            <Text style={styles.senderText}>{data.isiPesan}</Text>
+                                            {data.tipePesan === "teks" ? (
+                                                <Text style={styles.senderText}>{data.isiPesan}</Text>
+                                            ): (
+                                                <>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage",{img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                    <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
+                                                </TouchableOpacity>
+                                                <Text>{data.isiPesan}</Text>
+                                                </>
+                                                )
+                                            }
                                             <Text style={styles.timeSender}>{moment(waktu).format('LT')}</Text>
                                         </View>
                                     </View>
                                 ) : (
                                     <View key={id} style={styles.bubblesReceiver}>
                                         <View style={styles.receiver}>
-                                            <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            {data.tipePesan === "teks" ? (
+                                                <Text style={styles.receiverText}>{data.isiPesan}</Text>
+                                            ) : (
+                                                <>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage", {img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                    <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
+                                                </TouchableOpacity>
+                                                <Text>{data.isiPesan}</Text>
+                                                </>
+                                            )}
                                             <Text style={styles.timeReceiver}>{moment(waktu).format('LT')}</Text>
                                         </View>
                                     </View>
                                 )
                             ))}
                 </ScrollView>
-                {/* </View> */}
+
                 <View style={styles.footer}>
+                    <View style={styles.textInput}>
                     <TextInput 
                         value={input}
                         onChangeText={(text)=> setInput(text)}
                         onSubmitEditing={createChats}
                         placeholder="Ketik pesan.."
-                        style={styles.textInput}
                     />
+                    <TouchableOpacity onPress={choosePhotoFromLibrary} activeOpacity={0.8} style={{justifyContent: "center"}}>
+                        <AntDesign name="paperclip" size={28} color="#7a7878" />
+                    </TouchableOpacity>
+                    </View>
                     <TouchableOpacity 
                         onPress={createChats}
                         activeOpacity={0.5}>
-                        <View style={{backgroundColor: "#8ed1ba", marginLeft: 5, alignItems: "center", justifyContent: "center", width: 46, height: 46, borderRadius: 23}}>
+                        <View style={{backgroundColor: "#8ed1ba", marginLeft: 5, alignItems: "center", justifyContent: "center", width: 44, height: 44, borderRadius: 22}}>
                             <Ionicons name="send" size={28} color="#FFF" style={{marginLeft: 5}} />
                         </View>
                     </TouchableOpacity>
@@ -279,13 +291,15 @@ const styles = StyleSheet.create({
     },
     textInput: {
         bottom: 0,
-        height: 46,
+        height: 48,
         flex: 1,
         backgroundColor: "#ECECEC",
         borderRadius: 30,
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         borderColor: "transparent",
-        color: "grey"
+        color: "grey",
+        flexDirection: "row",
+        justifyContent: "space-between"
     }
 })
