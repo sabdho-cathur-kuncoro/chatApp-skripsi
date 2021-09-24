@@ -20,6 +20,7 @@ const DetailGroupScreen = ({navigation, route}) => {
     const [waktu, setWaktu] = useState([]);
     const [userData, setUserData] = useState([]);
     // const [admin, setAdmin] = useState([]);
+    const user = auth().currentUser.uid;
 
     useEffect(()=>{
         const unsubscribe = firestore().collection("groupChat")
@@ -56,8 +57,8 @@ const DetailGroupScreen = ({navigation, route}) => {
     },[])
 
     // Get Data User
+    const idGrup = route.params.idGrup;
     const getDataUser= ()=> {
-            const idGrup = route.params.idGrup;
 
             firestore().collection("Users")
             .where('Group', 'array-contains', idGrup)
@@ -74,7 +75,7 @@ const DetailGroupScreen = ({navigation, route}) => {
         return unsubscribe;
     },[])
 
-    console.log(userData);
+    console.log(idGrup);
     // console.log(detailGroup);
     // console.log(anggotaGrup);
     const enterUser = (id, Nama, fotoProfil, bio)=> {
@@ -85,6 +86,19 @@ const DetailGroupScreen = ({navigation, route}) => {
             bio
         })
     }
+
+    const exitGrup = ()=> {
+        firestore().collection("groupChat").doc(idGrup).update({
+            anggotaGrup: firestore.FieldValue.arrayRemove(user)
+        })
+
+        firestore().collection("Users").doc(user).update({
+            Group: firestore.FieldValue.arrayRemove(idGrup)
+        })
+        .then(
+            navigation.navigate("Swiper")
+        )
+    };
 
     useLayoutEffect(()=> {
         navigation.setOptions({
@@ -160,7 +174,7 @@ const DetailGroupScreen = ({navigation, route}) => {
                 </View>
             </View>
             <TouchableOpacity
-                onPress={()=> alert("aw!")} 
+                onPress={exitGrup} 
                 style={{backgroundColor: "#FFF", marginTop: 5, marginLeft: 10, flexDirection: "row", width: "100%", height: 50, alignItems: "center", justifyContent: "flex-start"}}
             >
                     <AntDesign name="logout" size={22} color="red" />

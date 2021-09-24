@@ -2,7 +2,6 @@ import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
-import Icon from "react-native-vector-icons/FontAwesome";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -94,7 +93,6 @@ const AddChatScreen = ({ navigation }) => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
             setImage(imageUri);
-            // bs.current.snapTo(1);
             uploadImage();
           });
     }
@@ -129,28 +127,6 @@ const AddChatScreen = ({ navigation }) => {
         const randomNumber = Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 100);
         const idGrup = "Grup_" + randomNumber;
         
-            // firestore().collection("Users")
-            //     .doc(user)
-            //     .update({
-            //         groups: [{
-            //             idGrup: true
-            //         }]
-            //     })
-            // firestore().collection("groupChatlist")
-            //     // .doc(user)
-            //     // .collection("GroupID")
-            //     .doc(idGrup)
-            //     .set({
-            //         // waktuBuatGrup: firebase.firestore.FieldValue.serverTimestamp(),
-            //         // groupID: idGrup,
-            //         // namaGrup: input,
-            //         // fotoGrup: imgUrl !== null ? imgUrl : "https://cdn.pixabay.com/photo/2017/11/10/05/46/group-2935521_960_720.png",
-            //         // anggotaGrup: [user],
-            //         // "https://cdn.pixabay.com/photo/2017/11/10/05/46/group-2935521_960_720.png",
-            //         // pembuatGrup: auth().currentUser.uid,
-            //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            //     })
-
             // Membuat Grup pada database
             firestore().collection("groupChat")
                 .doc(idGrup)
@@ -169,18 +145,8 @@ const AddChatScreen = ({ navigation }) => {
             firestore().collection("Users")
                 .doc(user)
                 .update({
-                    Group: firestore.FieldValue.arrayUnion(route.params.idGrup)
+                    Group: firestore.FieldValue.arrayUnion(idGrup)
                 })
-            // firestore().collection("groupChat")
-            //     .doc(idGrup)
-            //     .collection("anggotaGrup")
-            //     .doc(user)
-            //     .set({
-            //         idUser: userData.idUser,
-            //         nama: userData.namaUser,
-            //         foto: userData.fotoUser,
-            //         bio: userData.bioUser
-            //     })
 
             // Membuat Pesan Grup pada database
             firestore().collection("groupChat")
@@ -191,6 +157,7 @@ const AddChatScreen = ({ navigation }) => {
                     namaPengirim: userData.namaUser,
                     fotoPengirim: userData.fotoUser,
                     isiPesan: "Grup dibuat!",
+                    tipePesan: "teks",
                     waktuPesan: firebase.firestore.FieldValue.serverTimestamp()
                 })
                 .then(()=> {
@@ -242,7 +209,6 @@ const AddChatScreen = ({ navigation }) => {
                     <Text style={{color: "#FFF", fontSize: 20}}>Buat Grup</Text>
                 </View>
             </TouchableOpacity>
-            {/* <Button disabled={!input} onPress={createChat} title="Buat Grup" color={`'#2196F3'`}/> */}
         </View>
     )
 };

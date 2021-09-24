@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { View, Text, TouchableOpacity, RefreshControl, StatusBar, ScrollView, SafeAreaView, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, RefreshControl, StatusBar, ScrollView, SafeAreaView, StyleSheet, Image } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SpeedDial } from 'react-native-elements';
 // import { FAB } from 'react-native-elements';
@@ -17,8 +17,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 const ChatsListScreen = ({navigation}) => {
     const [ state, setState ] = useState({ open: false });
     const [ chatsList, setChatsList ] = useState([]);
-    const [tes, setTes] = useState([]);
-    const [tes2, setTes2] = useState("");
+    const [userData, setUserData] = useState([]);
 
     const user = auth().currentUser.uid;
     const userChatRef = firestore().collection("personalChat").where("users", "array-contains", user).orderBy("listWaktu","desc");
@@ -27,148 +26,13 @@ const ChatsListScreen = ({navigation}) => {
     const onStateChange = ({ open }) => setState({ open });
     const { open } = state;
 
+    useEffect(()=> {
+        firestore().collection("Users").doc(user).onSnapshot(documentSnapshot=> {
+            setUserData(documentSnapshot.data());
+        })
+    },[]);
 
-    // useEffect(()=>{
-    // const unsubscribe =    firestore().collection("Chatslist").where('key', 'array-contains', user)
-    //                             .onSnapshot(querySnapshot => {
-    //                                 querySnapshot.forEach(documentSnapshot => {
-    //                                 //   console.log(documentSnapshot.id, documentSnapshot.data());
-    //                                   setTes(documentSnapshot.get('ChatID'));
-    //                                 });
-    //                             })
-
-    //                             firestore().collection("Chatslist").doc(tes).collection("ChatsID")
-    //                         .onSnapshot((snapshot) =>
-    //                                 setTes2(snapshot.docs.map((doc)=> ({
-    //                                     id: doc.id,
-    //                                     data: doc.data(),
-    //                                 })))
-    //                             );
-
-    //     return unsubscribe;
-    // },[])
-    // console.log(tes);
-    
-    // useEffect(()=> {
-    //     const unsubscribe = firestore().collection("personalChat").where("users", "array-contains", user)
-    //                         .onSnapshot((snapshot) =>
-    //                                 setChatsList(snapshot.docs.map((doc)=> ({
-    //                                     id: doc.id,
-    //                                     data: doc.data(),
-    //                                 })))
-    //                             );
-    //     return unsubscribe;
-    // },[])
-    // console.log(chatsList);
-    
-    // useEffect(()=> {
-    //     const unsubscribe = firestore()
-    //                         .collection('listPersonalChat')
-    //                         .where("member", "array-contains", user)
-    //                         .orderBy("waktuPesan", "desc")
-    //                         .onSnapshot((snapshot) =>
-    //                             setTes(snapshot.docs.map((doc)=> ({
-    //                                 id: doc.id,
-    //                                 data: doc.data(),
-    //                             })))
-    //                         );
-    //                         // .onSnapshot(querySnapshot => {
-    //                         //     querySnapshot.forEach(documentSnapshot => {
-    //                         //         setTes(documentSnapshot.data())
-    //                         //     })
-    //                         // })
-
-                            
-    //     return unsubscribe;
-    // },[]);
-    // console.log(tes);
-
-    // const getPersonalID = ()=> {
-    //     firestore()
-    //         .collection('personalChat')
-    //         .where("member", "array-contains", user)
-    //         .orderBy("waktuPesan", "desc")
-    //         .onSnapshot(querySnapshot => {
-    //             querySnapshot.forEach(documentSnapshot => {
-    //                 setTes(documentSnapshot.get('chatID'))
-    //             })
-    //         })
-    // }
-    // useEffect(()=> {
-    //     const unsubscribe = getPersonalID();
-    //     return unsubscribe
-    // },[])
-    // // console.log(tes);
-    // const getListChat = ()=> {
-    //     const idPersonal = tes;
-
-    //     console.log(idPersonal);
-    //     // firestore()
-    //     //     .collection('personalChat')
-    //     //     .doc(idPersonal)
-    //     //     .collection('Member')
-    //     //     .doc(user)
-    //     //     .onSnapshot(querySnapshot => {
-    //     //         console.log('Total users: ', querySnapshot.size);
-            
-    //     //         querySnapshot.forEach(documentSnapshot => {
-    //     //           console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-    //     //         });
-    //     //     })
-    //         // .onSnapshot((snapshot) =>
-    //         //     setChatsList(snapshot.docs.map((doc)=> ({
-    //         //         id: doc.id,
-    //         //         data: doc.data(),
-    //         //     })))
-    //         // );
-    // }
-
-    // useEffect(()=> {
-    //     const unsubscribe = getListChat();
-    //     return unsubscribe
-    // },[])
-    // console.log(tes);
-    // useEffect(()=> {
-    //     // const idPersonal = tes;
-    //     // console.log(idPersonal);
-    //     const unsubscribe = firestore()
-    //                         .collection('listPersonalChat')
-    //                         // .doc(idPersonal)
-    //                         .where('chatDengan', 'array-contains', user)
-    //                         // .orderBy('listWaktu', 'desc')
-    //                         // .collection('MemberPersonalChat')
-    //                         // .doc(user)
-    //                         .onSnapshot((snapshot) =>
-    //                             setChatsList(snapshot.docs.map((doc)=> ({
-    //                                 id: doc.id,
-    //                                 // coba: doc.get("chatID"),
-    //                                 data: doc.data(),
-    //                             })))
-    //                         );
-    //                         // .onSnapshot(querySnapshot => {
-    //                         //     querySnapshot.forEach(documentSnapshot=> {
-    //                         //         console.log(documentSnapshot.data())
-    //                         //         setChatsList({
-    //                         //             id: documentSnapshot.get('chatsID'),
-    //                         //             data: documentSnapshot.data()
-    //                         //         })
-    //                         //     })
-    //                         // })
-
-    //                         // firestore()
-    //                         // .collection("Users")
-    //                         // .where("keyPersonalChat", "array-contains", user)
-    //                         // .onSnapshot((snapshot)=> 
-    //                         //     setTes(snapshot.docs.map((doc)=> ({
-    //                         //         idUser: doc.id,
-    //                         //         data: doc.data()
-    //                         //     })))
-    //                         // )
-    //     return unsubscribe
-    // },[])
-    // console.log("ISI: ", tes);
-    // console.log(chatsList);
-
+    // console.log(userData);
     const enterChat = (id, users)=> {
         navigation.navigate("ChatScreen", {
             id,
@@ -200,6 +64,14 @@ const ChatsListScreen = ({navigation}) => {
             </TouchableOpacity> */}
 
             <View style={styles.header}>
+                <TouchableOpacity 
+                    activeOpacity={0.7}
+                    onPress={()=> navigation.navigate("ProfileStack")}
+                    style={{alignSelf: "flex-start", flexDirection: "row", alignItems: "center", marginTop: 5}}
+                >
+                    <Image source={{uri: userData.fotoProfil}} style={{width: 38, height: 38, borderRadius: 10, marginLeft: 20}} />
+                    <Text style={{marginLeft: 5, color: "#FFF", fontSize: 18, fontWeight: "bold"}}>{userData.Nama}</Text>
+                </TouchableOpacity>
                 <Text style={{ fontSize: 30, color: "white", fontWeight: "bold"}}>Personal</Text>
             </View>
             
@@ -216,23 +88,6 @@ const ChatsListScreen = ({navigation}) => {
                             enterChat={enterChat}
                         />
                     ))}
-                    {/* {
-                        chatsList.map(({id,data: {displayName,displayFoto}})=> (
-                            <CustomListChats 
-                                key={id}
-                                id={id}
-                                // idUser1={idUser1}
-                                // idUser2={idUser2}
-                                // namaUser1={namaUser1}
-                                // namaUser2={namaUser2}
-                                // fotoUser1={fotoUser1}
-                                // fotoUser2={fotoUser2}
-                                // displayName={displayName}
-                                // displayFoto={displayFoto}
-                                enterChat={enterChat}
-                            />
-                        ))
-                    } */}
                 </ScrollView>
                 
                 <Provider>
@@ -272,9 +127,9 @@ export default ChatsListScreen
 
 const styles = StyleSheet.create({
     header: {
-        flex: 0.1, 
+        flex: 0.2, 
         backgroundColor: "#A1C6B9", 
-        flexDirection: "row", 
+        flexDirection: "column", 
         alignItems: "center", 
         justifyContent: "center"
     },

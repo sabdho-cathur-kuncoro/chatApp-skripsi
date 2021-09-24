@@ -5,6 +5,7 @@ import LoginScreen from './LoginScreen';
 import CreateAccountScreen from './CreateAccountScreen';
 import HomeScreen from './HomeScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ChatStackScreen from './chats/ChatStackScreen';
 
 const Stack = createStackNavigator();
 
@@ -38,7 +39,7 @@ export default function AppStack() {
         >
             {/* <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} /> */}
             <Stack.Screen name="CreateAccount" options={{headerShown: false}} component={CreateAccountScreen} />
-            <Stack.Screen name="HomeScreen" options={{headerShown: false}} component={HomeScreen} />
+            <Stack.Screen name="HomeScreen" options={{headerShown: false}} component={ChatStackScreen} />
         </Stack.Navigator>
     )
 }

@@ -3,14 +3,11 @@ import { View, Image, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpaci
 
 import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import CustomListContacts from '../../components/CustomListContacts';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomTambahAnggota from '../../components/CustomTambahAnggota';
 
 const AddGroupParticipant = ({navigation, route}) => {
     const [contacts, setContacts] = useState([]);
-    const [userData, setUserData] = useState('');
-    const [data, setData] = useState([]);
 
     const user = auth().currentUser;    
 
@@ -18,8 +15,6 @@ const AddGroupParticipant = ({navigation, route}) => {
         firestore()
             .collection('Contacts')
             .where('contactIn', 'array-contains', user.uid)
-            // .doc(user.uid)
-            // .collection('UserID')
             .onSnapshot((snapshot)=>
                 setContacts(snapshot.docs.map((doc)=> ({
                     id: doc.id,
@@ -27,22 +22,9 @@ const AddGroupParticipant = ({navigation, route}) => {
                     }))
                 )
             );
-            // .collection('Contacts')
-            // .doc(user.uid)
-            // .collection('UserID')
-            // .onSnapshot((snapshot)=>
-            //     setContacts(snapshot.docs.map((doc)=> ({
-            //         id: doc.id,
-            //         data: doc.data()
-            //         }))
-            //     )
-            // );
     }
     useEffect(()=> {
         const unsubscribe = getContact();
-                            // getUser();
-                            // gabunganData();
-                            // setData(contacts.join(userData));
 
         return unsubscribe;
     }, []);
@@ -50,19 +32,9 @@ const AddGroupParticipant = ({navigation, route}) => {
     const tambahAnggota = (id,displayName, displayFoto, bio)=> {
         firestore().collection("Users")
                     .doc(id)
-                    .update({
-                        Group: firestore.FieldValue.arrayUnion(route.params.idGrup)
-                    })
-        firestore().collection("groupChat")
-                    .doc(route.params.idGrup)
-                    .collection("anggotaGrup")
-                    .doc(id)
                     .set({
-                        idUser: id,
-                        nama: displayName,
-                        foto: displayFoto,
-                        bio: bio,
-                    })
+                        Group: firestore.FieldValue.arrayUnion(route.params.idGrup)
+                    }, {merge: true})
 
         firestore().collection("groupChat")
                     .doc(route.params.idGrup)

@@ -148,8 +148,8 @@ const GrupChatScreen = ({navigation, route}) => {
                                     <View key={id} style={styles.bubbles}>
                                         <View  style={styles.sender}>
                                             {data.tipePesan === "teks" ? (
-                                                <Text style={styles.senderText}>{data.isiPesan}</Text>
-                                            ): (
+                                                <Text style={styles.senderText}>{data.isiPesan}</Text>                                                
+                                                ): (
                                                 <>
                                                 <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImageGroup",{img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
                                                     <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />

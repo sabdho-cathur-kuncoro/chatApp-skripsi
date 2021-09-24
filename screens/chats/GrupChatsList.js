@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { View, Text, TouchableOpacity, RefreshControl, StatusBar, ScrollView, SafeAreaView, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StatusBar, ScrollView, SafeAreaView, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SpeedDial } from 'react-native-elements';
 // import { FAB } from 'react-native-elements';
@@ -16,12 +16,19 @@ const GrupChatsList = ({navigation}) => {
     const [ state, setState ] = useState({ open: false });
     const [ groupChat, setGroupChat ] = useState([]);
     const [ groupChatslist, setGroupChatslist ] = useState([]);
+    const [userData, setUserData] = useState([]);
 
     const onStateChange = ({ open }) => setState({ open });
     const { open } = state;
+    const user = auth().currentUser.uid;
     
+    useEffect(()=> {
+        firestore().collection("Users").doc(user).onSnapshot(documentSnapshot=> {
+            setUserData(documentSnapshot.data());
+        })
+    },[]);
+
     const getData = ()=> {
-        const user = auth().currentUser.uid;
 
         firestore().collection('groupChat')
                         .where('anggotaGrup', 'array-contains', user)
@@ -55,6 +62,14 @@ const GrupChatsList = ({navigation}) => {
             <StatusBar style="light-content" backgroundColor="#A1C6B9" />
 
             <View style={styles.header}>
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={()=> navigation.navigate("ProfileStack")}
+                    style={{alignSelf: "flex-start", flexDirection: "row", alignItems: "center", marginTop: 5}}
+                >
+                    <Image source={{uri: userData.fotoProfil}} style={{width: 38, height: 38, borderRadius: 10, marginLeft: 20}} />
+                    <Text style={{marginLeft: 5, color: "#FFF", fontSize: 18, fontWeight: "bold"}}>{userData.Nama}</Text>
+                </TouchableOpacity>
                 <Text style={{ fontSize: 30, color: "white", fontWeight: "bold"}}>Groups</Text>
             </View>
             
@@ -114,9 +129,9 @@ export default GrupChatsList
 
 const styles = StyleSheet.create({
     header: {
-        flex: 0.1, 
+        flex: 0.2, 
         backgroundColor: "#A1C6B9", 
-        flexDirection: "row", 
+        flexDirection: "column", 
         alignItems: "center", 
         justifyContent: "center"
     },

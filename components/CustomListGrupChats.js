@@ -57,10 +57,10 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
                     </ListItem.Title>
                     <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
                         { chatMessages.idPengirim === user ? (
-                            "You: "
-                        ):(
+                            "You: " ):(
                             chatMessages.namaPengirim+ ": "
-                        )} {chatMessages.tipePesan === "teks" ? (
+                        )} 
+                        {chatMessages.tipePesan === "teks" ? (
                             chatMessages.isiPesan
                         ):(
                             <View style={{flexDirection: "row"}}>

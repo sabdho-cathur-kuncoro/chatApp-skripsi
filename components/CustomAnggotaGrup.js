@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { ListItem, Avatar } from 'react-native-elements'
 import { View, Image, StyleSheet, RefreshControl } from 'react-native'
-import moment from 'moment'
-
-import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
-import firestore from '@react-native-firebase/firestore';
 
 const CustomAnggotaGrup = ({id, Nama, fotoProfil, bio, enterUser}) => {
     return (

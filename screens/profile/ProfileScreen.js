@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Feather from 'react-native-vector-icons/Feather'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import AntDesign from "react-native-vector-icons/AntDesign"
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -327,6 +328,9 @@ const ProfileScreen = ({navigation}) => {
             }}>
 
             <View style={styles.headerTop}>
+                <TouchableOpacity style={{marginRight: 5}} onPress={navigation.goBack}>
+                    <AntDesign name="arrowleft" size={32} color="white" />
+                </TouchableOpacity>
                 <Text style={{fontSize: 28, fontWeight: "bold", color: "#FFF"}}>Profile</Text>
             </View>
             
@@ -428,7 +432,8 @@ const styles = StyleSheet.create({
         flex: 0.1,
         backgroundColor: "#A1C6B9",
         alignItems: "center",
-        justifyContent: "center",
+        // justifyContent: "center",
+        flexDirection: "row",
         padding: 10
     },
     image: {
