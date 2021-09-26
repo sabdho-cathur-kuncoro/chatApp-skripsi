@@ -16,17 +16,14 @@ import CustomAnggotaGrup from '../../components/CustomAnggotaGrup';
 const DetailGroupScreen = ({navigation, route}) => {
     const [detailGroup, setDetailGroup] = useState([]);
     const [jumlahAnggota, setJumlahAnggota] = useState("");
-    const [anggotaGrup, setAnggotaGrup] = useState([]);
     const [waktu, setWaktu] = useState([]);
     const [userData, setUserData] = useState([]);
-    // const [admin, setAdmin] = useState([]);
     const user = auth().currentUser.uid;
 
     useEffect(()=>{
         const unsubscribe = firestore().collection("groupChat")
                                         .doc(route.params.idGrup)
                                         .onSnapshot(documentSnapshot => {
-                                            // console.log(documentSnapshot.data());
                                             setDetailGroup(
                                                 documentSnapshot.data()
                                             )
@@ -37,9 +34,6 @@ const DetailGroupScreen = ({navigation, route}) => {
                                             }else {
                                                 setWaktu(documentSnapshot.get("waktuBuatGrup").toDate().toString())
                                             }
-                                            // setParticipants({
-                                            //         anggotaGrup: documentSnapshot.get("anggotaGrup")
-                                            //     })
                                         })
         return unsubscribe;
     },[])
@@ -75,9 +69,6 @@ const DetailGroupScreen = ({navigation, route}) => {
         return unsubscribe;
     },[])
 
-    console.log(idGrup);
-    // console.log(detailGroup);
-    // console.log(anggotaGrup);
     const enterUser = (id, Nama, fotoProfil, bio)=> {
         navigation.navigate("MemberGrup", {
             id,

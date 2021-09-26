@@ -52,6 +52,12 @@ const GrupChatsList = ({navigation}) => {
             fotoGrup
         })
     }
+    const detailGrup = (id, namaGrup)=> {
+        navigation.navigate("DetailGroup", {
+            idGrup: id,
+            groupName: namaGrup
+        })
+    }
 
     return (
         <SafeAreaView style={{
@@ -85,6 +91,7 @@ const GrupChatsList = ({navigation}) => {
                                 namaGrup={namaGrup}
                                 fotoGrup={fotoGrup}
                                 enterGroup={enterGroup}
+                                detailGrup={detailGrup}
                             />
                         ))
                     // ))

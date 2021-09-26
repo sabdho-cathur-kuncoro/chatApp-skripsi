@@ -1,22 +1,15 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { View, Text, TouchableOpacity, RefreshControl, StatusBar, ScrollView, SafeAreaView, StyleSheet, Image } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SpeedDial } from 'react-native-elements';
-// import { FAB } from 'react-native-elements';
+import React, { useState, useEffect } from 'react'
+import { View, Text, TouchableOpacity, StatusBar, ScrollView, SafeAreaView, StyleSheet, Image } from 'react-native'
 import { FAB, Portal, Provider } from 'react-native-paper';
 
 import CustomListChats from '../../components/CustomListChats';
-import CustomListGrupChats from '../../components/CustomListGrupChats';
-import { Icon } from 'react-native-vector-icons/Feather';
 
-import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 const ChatsListScreen = ({navigation}) => {
     const [ state, setState ] = useState({ open: false });
-    const [ chatsList, setChatsList ] = useState([]);
     const [userData, setUserData] = useState([]);
 
     const user = auth().currentUser.uid;
@@ -37,17 +30,13 @@ const ChatsListScreen = ({navigation}) => {
         navigation.navigate("ChatScreen", {
             id,
             users
-            // displayName,
-            // displayFoto
         })
     }
-
-    const signOutUser = ()=> {
-        auth().signOut().then(()=> {
-            // navigation.replace("Login");
-            console.log("Berhasil Logout")
-        });
-    };
+    const detailUser = (users)=> {
+        navigation.navigate("DetailUser",{
+            idUser: users
+        })
+    }
 
     return (
         <SafeAreaView style={{
@@ -56,12 +45,6 @@ const ChatsListScreen = ({navigation}) => {
           }} 
           >
             <StatusBar style="light-content" backgroundColor="#A1C6B9" />
-
-            {/* <TouchableOpacity onPress={signOutUser}>
-                <View style={{width: 50, height: 50, backgroundColor: "red"}}>
-                    <Text>Log Out</Text>
-                </View>
-            </TouchableOpacity> */}
 
             <View style={styles.header}>
                 <TouchableOpacity 
@@ -86,6 +69,7 @@ const ChatsListScreen = ({navigation}) => {
                             id={chat.id} 
                             users={chat.data().users}
                             enterChat={enterChat}
+                            detailUser={detailUser}
                         />
                     ))}
                 </ScrollView>

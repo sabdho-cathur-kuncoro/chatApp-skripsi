@@ -44,7 +44,7 @@ const AddGroupParticipant = ({navigation, route}) => {
                     .then(navigation.goBack())
     }
 
-    console.log(route.params.idGrup);
+    // console.log(route.params.idGrup);
     // console.log('User ',userData);
     console.log('Data Contact ', contacts);
     return (

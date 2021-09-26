@@ -23,8 +23,6 @@ const AddChatScreen = ({ navigation }) => {
                             .collection('Users')
                             .doc(auth().currentUser.uid)
                             .onSnapshot(documentSnapshot => {
-                                // console.log('User data: ', documentSnapshot.data());
-
                                 const userId = documentSnapshot.get("uid");
                                 const nama = documentSnapshot.get("Nama");
                                 const foto = documentSnapshot.get("fotoProfil");

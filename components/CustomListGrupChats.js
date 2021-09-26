@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, Text, StyleSheet, RefreshControl } from 'react-native'
+import { View, Image, Text, StyleSheet, RefreshControl, TouchableOpacity } from 'react-native'
 import moment from 'moment'
 
 import auth, { firebase } from '@react-native-firebase/auth';
@@ -8,8 +8,7 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import AntDesign from "react-native-vector-icons/AntDesign"
 
-const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
-    // const [ chatslist, setChatslist ] = useState([]);
+const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup, detailGrup}) => {
     const [ chatMessages, setChatMessages ] = useState([]);
     const [ waktu, setWaktu ] = useState([]);
 
@@ -21,9 +20,7 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
                             .collection("pesanGrup")
                             .orderBy("waktuPesan", "asc")
                             .onSnapshot(querySnapshot => {
-                                // console.log('Total data: ', querySnapshot.size);
                                 querySnapshot.forEach(documentSnapshot => {
-                                    // console.log('Data: ', documentSnapshot.id, documentSnapshot.data());
                                     setChatMessages(documentSnapshot.data());
 
                                     // Set Timestamp to Date
@@ -37,8 +34,8 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
                             });
         return unsubscribe;
     }, []);
-    // console.log(user);
 
+    
     return (
         <ListItem
                 containerStyle={{height: 80}}
@@ -47,31 +44,44 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup}) => {
                 onPress={()=> enterGroup(id, namaGrup, fotoGrup)} 
                 bottomDivider
             >
+                <TouchableOpacity activeOpacity={0.7} onPress={()=> detailGrup(id, namaGrup)}>
                 <Image
                     style={{width: 42, height: 42, borderRadius: 10}}
                     source={{uri: fotoGrup}}
                 />
+                </TouchableOpacity>
                 <ListItem.Content>
                     <ListItem.Title style={{fontWeight: "bold", fontSize: 16}}>
                         {namaGrup}
                     </ListItem.Title>
-                    <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
-                        { chatMessages.idPengirim === user ? (
-                            "You: " ):(
-                            chatMessages.namaPengirim+ ": "
-                        )} 
+                    <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail" style={{flexDirection: "row"}}>
+                        
                         {chatMessages.tipePesan === "teks" ? (
-                            chatMessages.isiPesan
+                            <>
+                            {chatMessages.idPengirim === user ? (
+                                <Text>You: </Text>
+                            ):(
+                                <Text>{chatMessages.namaPengirim}: </Text>
+                            )}
+                            <Text>{chatMessages.isiPesan}</Text>
+                            </>
                         ):(
                             <View style={{flexDirection: "row"}}>
+                            {chatMessages.idPengirim === user ? (
+                                <Text>You: </Text>
+                            ):(
+                                <Text>{chatMessages.namaPengirim}: </Text>
+                            )}
+                            <View style={{flexDirection: "row", right: 0}}>
                                 <AntDesign name="picture" size={20} color="#8c8f8e" style={{marginRight: 5}} />
                                 <Text style={{color: "#8c8f8e"}}>{chatMessages.isiPesan === null ? "Image" : chatMessages.isiPesan}</Text>
                             </View>
-                        ) }
+                            </View>
+                        )}
                     </ListItem.Subtitle>
                 </ListItem.Content>
                     <ListItem.Subtitle>
-                        {moment(waktu).format('LT')}
+                        {moment(waktu).fromNow()}
                     </ListItem.Subtitle>
                     <ListItem.Chevron size={32} />
             </ListItem>

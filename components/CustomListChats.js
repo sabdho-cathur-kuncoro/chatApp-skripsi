@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, StyleSheet, Text, RefreshControl, ImageBackground } from 'react-native'
+import { View, Image, StyleSheet, Text, RefreshControl, ImageBackground, TouchableOpacity } from 'react-native'
 import moment from 'moment'
 import CustomListGrupChats from './CustomListGrupChats';
 
@@ -12,20 +12,12 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import getRecipientUid from '../utils/getRecipientUid';
 import AntDesign from "react-native-vector-icons/AntDesign"
 
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
-
-const CustomListChats = ({id,users,enterChat}) => {
-
-    // const navigation = useNavigation();
-
+const CustomListChats = ({id,users,enterChat, detailUser}) => {
     const [ chatMessages, setChatMessages ] = useState([]);
     const [ userData, setUserData ] = useState([]);
     const [ chatslist, setChatslist ] = useState([]);
     const [ waktu, setWaktu ] = useState([]);
 
-    // const user = auth().currentUser.uid;
     const [user] = useAuthState(auth());
 
     const [recipientSnapshot] = useCollection(
@@ -33,7 +25,6 @@ const CustomListChats = ({id,users,enterChat}) => {
     );
     const recipient = recipientSnapshot?.docs?.[0]?.data();
     const recipientUid = getRecipientUid(users, user);
-    // console.log(recipientUid);
 
     const getData = ()=> {
         firestore()
@@ -42,9 +33,7 @@ const CustomListChats = ({id,users,enterChat}) => {
             .collection("pesanPersonal")
             .orderBy("waktuPesan", "asc")
             .onSnapshot(querySnapshot => {
-                // console.log('Total data: ', querySnapshot.size);
                 querySnapshot.forEach(documentSnapshot => {
-                    // console.log('Data: ', documentSnapshot.id, documentSnapshot.data());
                     setChatMessages(documentSnapshot.data());
 
                     // Set Timestamp to Date
@@ -58,23 +47,13 @@ const CustomListChats = ({id,users,enterChat}) => {
             });
     }
     
-    // console.log(userData);
     useEffect(() => {
         const unsubscribe = getData();
 
         return unsubscribe;
     }, []);
-    // console.log(chatslist);
-
-    // const enterChat = (id,users)=> {
-    //     navigation.navigate("ChatScreen", {
-    //         id: id,
-    //         users: users
-    //     })
-    // }
 
     return (
-        // <View></View>
             <ListItem
                 containerStyle={{height: 80}}
                 key={id} 
@@ -83,11 +62,16 @@ const CustomListChats = ({id,users,enterChat}) => {
                 bottomDivider
                 >
                 {recipient ? (
+                    <TouchableOpacity activeOpacity={0.7} onPress={()=> detailUser(users)}>
                     <Image
                     style={{width: 42, height: 42, borderRadius: 10}}
                     source={{uri: recipient?.fotoProfil}}
                     />
-                ):(<Image style={{width: 42, height: 42, borderRadius: 10}} source={{uri: recipientUid[0]}} />
+                    </TouchableOpacity>
+                ):(
+                    <TouchableOpacity activeOpacity={0.7} onPress={()=> detailUser(users)}>
+                    <Image style={{width: 42, height: 42, borderRadius: 10}} source={{uri: recipientUid[0]}} />
+                    </TouchableOpacity>
                 )}
                 
                 <ListItem.Content>
@@ -105,7 +89,7 @@ const CustomListChats = ({id,users,enterChat}) => {
                     </ListItem.Subtitle>
                 </ListItem.Content>
                     <ListItem.Subtitle>
-                        {moment(waktu).format('LT')}
+                        {moment(waktu).fromNow()}
                     </ListItem.Subtitle>
                     <ListItem.Chevron size={32} />
             </ListItem>

@@ -125,7 +125,7 @@ const GrupChatScreen = ({navigation, route}) => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    // activeOpacity={0.5}
+                    activeOpacity={0.7}
                     onPress={()=> navigation.navigate("DetailGroup",{idGrup: route.params.id, groupName: route.params.namaGrup})}
                 >
                     <View style={{marginLeft: 15, justifyContent: "center", height: "100%", width: 150}}>
