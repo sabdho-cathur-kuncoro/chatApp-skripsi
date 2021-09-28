@@ -21,17 +21,10 @@ const ProfileScreen = ({navigation}) => {
     const [nama, setNama] = useState('');
     const [bio, setBio] = useState('');
     const [group, setGroup] = useState([]);
+    const user = auth().currentUser.uid;
 
     const [modalNama, setModalNama] = useState(false);
     const [modalBio, setModalBio] = useState(false);
-
-    // const signOutUser = ()=> {
-    //     auth().signOut().then(()=> {
-    //         navigation.replace("Login");
-    //         console.log("Berhasil Logout")
-    //     });
-    // };
-    
 
     // Bottom Sheet
     const bs = React.useRef();
@@ -140,32 +133,8 @@ const ProfileScreen = ({navigation}) => {
           });
     }
 
-    // Get Data Grup
-    const getData = ()=> {
-        const user = auth().currentUser.uid;
-
-        // firestore().collection('personalChat')
-        //                 .where('member', 'array-contains', user)
-        //                 // .orderBy('listWaktu', 'desc')
-        //                 .onSnapshot((snapshot) =>
-        //                     setGroup(snapshot.docs.map((doc)=> ({
-        //                         id: doc.id,
-        //                         data: doc.data(),
-        //                     })))
-        //                 );
-    }
-    useEffect(()=> {
-        const unsubscribe = getData();
-        return unsubscribe;
-    },[])
-    // useEffect(()=> {
-    //     const unsubscribe = firestore().collection()
-    // }, [])
-    // https://aws-dist.brta.in/2020-07/f545af97e8448b31aae35fcd08ccc09838aa7530.jpg
-    // console.log("Data ", group);
     // Update Data User
     const updateFoto = async() => {
-        // await uploadImage();
         let imgUrl = await uploadImage();
 
         if( imgUrl == null && userData.fotoProfil ) {
@@ -219,11 +188,10 @@ const ProfileScreen = ({navigation}) => {
     }
 
     // API Firebase
-    const getUser = async () => {
-        const user = auth().currentUser;
-        await firestore()
+    const getUser = () => {
+        firestore()
             .collection('Users')
-            .doc(user.uid)
+            .doc(user)
             .onSnapshot(documentSnapshot => {
                 console.log('User data: ', documentSnapshot.data());
                 setUserData(documentSnapshot.data());
@@ -231,7 +199,6 @@ const ProfileScreen = ({navigation}) => {
     }
 
     useEffect(() => {
-        // updateFoto();
         const unsubscribe = getUser();
         return unsubscribe;
     }, []);
@@ -398,12 +365,6 @@ const ProfileScreen = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
 
-                {/* <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
-                    <View style={styles.button}>
-                        <Text style={{color: "red", fontSize: 20, fontWeight: "bold"}}>Sign Out</Text>
-                    </View>
-                </TouchableOpacity> */}
-
             </View>
 
             </Animated.View>
@@ -422,25 +383,19 @@ const styles = StyleSheet.create({
         flex: 0.1,
         backgroundColor: "#A1C6B9",
         alignItems: "center",
-        // justifyContent: "center",
         flexDirection: "row",
         padding: 10
     },
     image: {
-        // flex: 0.7,
         alignItems: "center",
         justifyContent: "center",
-        // backgroundColor: "#ECECEC",
         borderTopStartRadius: 30,
     },
     innerBody: {
         height: 80,
         padding: 5,
         flexDirection: "row",
-        // backgroundColor: "#ECECEC",
         marginBottom: 5,
-        // borderWidth: 1,
-        // borderRadius: 12,
         marginHorizontal: 5
     },
     button: {
@@ -524,5 +479,3 @@ const styles = StyleSheet.create({
           color: "#42C294"
       }
 })
-
-//#89ada1
