@@ -52,10 +52,9 @@ const GrupChatsList = ({navigation}) => {
             fotoGrup
         })
     }
-    const detailGrup = (id, namaGrup)=> {
+    const detailGrup = (id)=> {
         navigation.navigate("DetailGroup", {
             idGrup: id,
-            groupName: namaGrup
         })
     }
 

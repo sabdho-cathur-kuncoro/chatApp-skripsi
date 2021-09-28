@@ -44,7 +44,7 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup, detailGrup}) =
                 onPress={()=> enterGroup(id, namaGrup, fotoGrup)} 
                 bottomDivider
             >
-                <TouchableOpacity activeOpacity={0.7} onPress={()=> detailGrup(id, namaGrup)}>
+                <TouchableOpacity activeOpacity={0.7} onPress={()=> detailGrup(id)}>
                 <Image
                     style={{width: 42, height: 42, borderRadius: 10}}
                     source={{uri: fotoGrup}}

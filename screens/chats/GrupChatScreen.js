@@ -16,7 +16,6 @@ const GrupChatScreen = ({navigation, route}) => {
     const [input, setInput] = useState("");
     const [userData, setUserData] = useState('');
     const [messages, setMessages] = useState([]);
-    const [ chatsList, setChatsList ] = useState([]);
     const scrollViewRef = useRef();
 
     useEffect(()=> {
@@ -37,7 +36,6 @@ const GrupChatScreen = ({navigation, route}) => {
                                         })
         return unsubscribe;
     },[])
-    // console.log(userData);
 
     const choosePhotoFromLibrary = ()=> {
         ImagePicker.openPicker({
@@ -58,7 +56,6 @@ const GrupChatScreen = ({navigation, route}) => {
             })
           });
     }
-    console.log(route.params.id);
 
     const createChats = ()=> {
 
@@ -103,7 +100,7 @@ const GrupChatScreen = ({navigation, route}) => {
         
         return unsubscribe;
     }, [route]);
-    // console.log(messages);
+
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -126,7 +123,7 @@ const GrupChatScreen = ({navigation, route}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     activeOpacity={0.7}
-                    onPress={()=> navigation.navigate("DetailGroup",{idGrup: route.params.id, groupName: route.params.namaGrup})}
+                    onPress={()=> navigation.navigate("DetailGroup",{idGrup: route.params.id})}
                 >
                     <View style={{marginLeft: 15, justifyContent: "center", height: "100%", width: 150}}>
                         <Text style={{fontSize: 22, color: "#fff"}}>{route.params.namaGrup}</Text>
@@ -225,13 +222,11 @@ const styles = StyleSheet.create({
     },
     bubbles: {
         width: "100%",
-        // backgroundColor: "#ECECEC",
         flexDirection: "row", 
         justifyContent: "flex-end"
     },
     bubblesReceiver: {
         width: "100%", 
-        // backgroundColor: "#ECECEC",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start"
@@ -251,9 +246,7 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 16,
         textAlign: "left",
-        // fontWeight: "700",
         marginLeft: 10,
-        // paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -271,7 +264,6 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         fontSize: 16,
         textAlign: "right",
-        // fontWeight: "700",
         marginLeft: 10,
     },
     timeReceiver: {
@@ -285,7 +277,6 @@ const styles = StyleSheet.create({
     },
     timeSender: {
         color: "#001000",
-        // position: "absolute",
         bottom: 0,
         right: 0,
         textAlign: "right",
@@ -306,7 +297,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#ECECEC",
         borderRadius: 30,
         paddingHorizontal: 15,
-        // paddingVertical: 10,
         borderColor: "transparent",
         color: "grey",
         flexDirection: "row",

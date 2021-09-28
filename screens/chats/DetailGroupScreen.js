@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Image, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Pressable, Image, ImageBackground, ScrollView } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
 
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import auth, { firebase } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
@@ -18,7 +18,12 @@ const DetailGroupScreen = ({navigation, route}) => {
     const [jumlahAnggota, setJumlahAnggota] = useState("");
     const [waktu, setWaktu] = useState([]);
     const [userData, setUserData] = useState([]);
+    const [namaGrup, setNamaGrup] = useState("");
+    const [deskripsiGrup, setDeskripsiGrup] = useState("");
     const user = auth().currentUser.uid;
+    
+    const [modalNama, setModalNama] = useState(false);
+    const [modalDeskripsi, setModalDeskripsi] = useState(false);
 
     useEffect(()=>{
         const unsubscribe = firestore().collection("groupChat")
@@ -78,6 +83,25 @@ const DetailGroupScreen = ({navigation, route}) => {
         })
     }
 
+    const updateNamaGrup = ()=> {
+        firestore().collection("groupChat").doc(idGrup).update({
+            namaGrup: namaGrup
+        })
+        .then(()=> {
+            console.log("Nama berhasil diupdate!");
+            setModalNama(!modalNama);
+        })
+    }
+    const updateDeskripsiGrup = ()=> {
+        firestore().collection("groupChat").doc(idGrup).update({
+            deskripsiGrup: deskripsiGrup
+        })
+        .then(()=> {
+            console.log("Deskripsi berhasil diupdate!");
+            setModalDeskripsi(!modalDeskripsi);
+        })
+    }
+
     const exitGrup = ()=> {
         firestore().collection("groupChat").doc(idGrup).update({
             anggotaGrup: firestore.FieldValue.arrayRemove(user)
@@ -93,12 +117,11 @@ const DetailGroupScreen = ({navigation, route}) => {
 
     useLayoutEffect(()=> {
         navigation.setOptions({
-            title: route.params.groupName,
+            title: "Grup Detail",
             headerBackTitleVisible: false,
             headerStyle: {backgroundColor: "#A1C6B9", elevation: 0},
             headerTintColor: "#FFF",
             headerTitleAlign: "center",
-            // headerBackTitle: "Chats",
             headerLeft: ()=> (
                     <TouchableOpacity 
                         style={{marginLeft: 10, flexDirection: "row", alignItems: "center"}}
@@ -110,9 +133,79 @@ const DetailGroupScreen = ({navigation, route}) => {
             ),
         })
     }, []);
-    // console.log(route.params.idGrup);
+    console.log(idGrup);
     return (
         <View style={{flex: 1, backgroundColor: "#ECECEC"}}>
+            {/* Modal */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalDeskripsi}
+                onRequestClose={()=> {
+                    setModalDeskripsi(!modalDeskripsi);
+                }}
+            >
+                <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#aaadab"}}>
+                    <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
+                        <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Deskripsi Grup</Text>
+                        <TextInput 
+                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
+                            value={deskripsiGrup}
+                            maxLength={26}
+                            onChangeText={(text)=> setDeskripsiGrup(text)}
+                        />
+                        <View style={{flexDirection: "row", padding: 10, justifyContent: "flex-end", marginTop: 15}}>
+                        <Pressable 
+                            style={{marginRight: 10}}
+                            onPress={()=> { setModalDeskripsi(!modalDeskripsi) }}
+                        >
+                            <Text style={{fontSize: 20, color: "#42C294", fontWeight: "bold"}}>Cancel</Text>
+                        </Pressable>
+                        <Pressable 
+                            onPress={updateDeskripsiGrup}
+                        >
+                            <Text style={{fontSize: 20, color: "#42C294", fontWeight: "bold"}}>Save</Text>
+                        </Pressable>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalNama}
+                onRequestClose={()=> {
+                    setModalNama(!modalNama);
+                }}
+            >
+                <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#aaadab"}}>
+                    <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
+                        <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Nama Grup</Text>
+                        <TextInput 
+                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
+                            value={namaGrup}
+                            maxLength={26}
+                            onChangeText={(text)=> setNamaGrup(text)}
+                        />
+                        <View style={{flexDirection: "row", padding: 10, justifyContent: "flex-end", marginTop: 15}}>
+                        <Pressable 
+                            style={{marginRight: 10}}
+                            onPress={()=> { setModalNama(!modalNama) }}
+                        >
+                            <Text style={{fontSize: 20, color: "#42C294", fontWeight: "bold"}}>Cancel</Text>
+                        </Pressable>
+                        <Pressable 
+                            onPress={updateNamaGrup}
+                        >
+                            <Text style={{fontSize: 20, color: "#42C294", fontWeight: "bold"}}>Save</Text>
+                        </Pressable>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+            {/* End of Modal */}
+
             <ScrollView>
             <ImageBackground
                 source={{
@@ -121,14 +214,28 @@ const DetailGroupScreen = ({navigation, route}) => {
                 style={{width: "100%", height: 300, justifyContent: "flex-end"}}
             >
                 <View style={{marginLeft: 5}}>
-                    <Text style={{fontSize: 22, color: "#fff"}}>{route.params.groupName}</Text>
+                    <TouchableOpacity 
+                        activeOpacity={0.7}
+                        onPress={()=> setModalNama(true)}
+                        style={{flexDirection: "row", width: "100%", alignItems: "center"}}
+                    >
+                            <Text style={{fontSize: 22, color: "#fff", marginRight: 10}}>{detailGroup.namaGrup}</Text>
+                        <AntDesign name="edit" size={22} color="#42C294" />
+                    </TouchableOpacity>
                     <Text style={{fontSize: 18, color: "#fff"}}>Dibuat: {moment(waktu).format('LLL')}</Text>
                 </View>
             </ImageBackground>
             <View style={{backgroundColor: "#FFF", width: "100%", height: 62}}>
                 <View style={{paddingLeft: 5}}>
                     <Text style={{fontSize: 22, color: "#8ed1ba"}}>Description</Text>
-                    <Text style={{fontSize: 20}}>{detailGroup.deskripsiGrup}</Text>
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={()=> setModalDeskripsi(true)}
+                        style={{flexDirection: "row", width: "100%", alignItems: "center"}}
+                    >
+                        <Text style={{fontSize: 20, marginRight: 10}}>{detailGroup.deskripsiGrup}</Text>
+                        <AntDesign name="edit" size={22} color="#42C294" />
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={{backgroundColor: "#FFF", marginTop: 10, width: "100%", flex: 1}}>
