@@ -263,7 +263,7 @@ const ProfileScreen = ({navigation}) => {
             >
                 <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#aaadab"}}>
                     <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
-                        <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Input your name</Text>
+                        <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Masukkan nama</Text>
                         <TextInput 
                             style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
                             value={nama}
@@ -297,7 +297,7 @@ const ProfileScreen = ({navigation}) => {
             >
                 <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#aaadab"}}>
                     <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
-                        <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Input your bio</Text>
+                        <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Masukkan bio</Text>
                         <TextInput 
                             style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
                             value={bio}
@@ -364,16 +364,6 @@ const ProfileScreen = ({navigation}) => {
                                 <Ionicons name="camera" size={26} color="#FFF" />
                             </View>
             </TouchableOpacity>
-
-                {/* <TouchableOpacity onPress={()=> navigation.navigate("EditScreen")} activeOpacity={0.3}
-                    style={styles.innerBody, 
-                    {alignSelf: "flex-end", marginTop: 10, right: 20}}
-                    >
-                    <View style={{backgroundColor: "#FFF", padding: 5, flexDirection: "row", borderWidth: 2, borderColor: "#42C294", borderRadius: 12}}>
-                        <Text style={{fontSize: 20, fontWeight: "bold", color: "#42C294"}}>Edit</Text>
-                        <MaterialIcons name="edit" size={24} color="#42C294" style={{marginLeft: 10}}/>
-                    </View>
-                </TouchableOpacity> */}
 
                 {/* Text User */}
                 <TouchableOpacity style={styles.innerBody} onPress={()=> { setModalNama(true) }}>
