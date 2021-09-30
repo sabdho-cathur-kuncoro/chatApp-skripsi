@@ -41,6 +41,11 @@ const DetailMemberGrup = ({navigation, route}) => {
             style={{width: "100%", height: 300, marginBottom: 10}}
             source={{uri: user.fotoProfil}}
             />
+            <View style={{height: 80, padding: 5, marginBottom: 5, marginHorizontal: 5}}>
+                <Text style={{marginVertical: 5, color: "#42C294", fontSize: 18}}>Bio</Text>
+                <Text style={{color: "#000", fontSize: 20}}>{user.bio}</Text>
+            </View>
+            <View style={{width: "100%", borderWidth: 0.5, borderStyle: "solid"}}></View>
 
             <View style={{height: 80, padding: 5, marginBottom: 5, marginHorizontal: 5}}>
                 <Text style={{marginVertical: 5, color: "#42C294", fontSize: 18}}>Phone Number</Text>
@@ -48,11 +53,6 @@ const DetailMemberGrup = ({navigation, route}) => {
             </View>
             <View style={{width: "100%", borderWidth: 0.5, borderStyle: "solid"}}></View>
             
-            <View style={{height: 80, padding: 5, marginBottom: 5, marginHorizontal: 5}}>
-                <Text style={{marginVertical: 5, color: "#42C294", fontSize: 18}}>Bio</Text>
-                <Text style={{color: "#000", fontSize: 20}}>{user.bio}</Text>
-            </View>
-            <View style={{width: "100%", borderWidth: 0.5, borderStyle: "solid"}}></View>
         </View>
     )
 }

@@ -207,11 +207,15 @@ const DetailGroupScreen = ({navigation, route}) => {
             {/* End of Modal */}
 
             <ScrollView>
+            <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={()=> navigation.navigate("ViewFotoGrup", {idGrup: route.params.idGrup})}
+            >
             <ImageBackground
                 source={{
                     uri: detailGroup.fotoGrup
                 }}
-                style={{width: "100%", height: 300, justifyContent: "flex-end"}}
+                style={{width: "100%", height: 400, justifyContent: "flex-end"}}
             >
                 <View style={{marginLeft: 5}}>
                     <TouchableOpacity 
@@ -225,6 +229,7 @@ const DetailGroupScreen = ({navigation, route}) => {
                     <Text style={{fontSize: 18, color: "#fff"}}>Dibuat: {moment(waktu).format('LLL')}</Text>
                 </View>
             </ImageBackground>
+            </TouchableOpacity>
             <View style={{backgroundColor: "#FFF", width: "100%", height: 62}}>
                 <View style={{paddingLeft: 5}}>
                     <Text style={{fontSize: 22, color: "#8ed1ba"}}>Description</Text>
