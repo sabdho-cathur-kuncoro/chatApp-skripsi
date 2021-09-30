@@ -43,7 +43,15 @@ const CreateAccountScreen = ({navigation}) => {
                 bio: bio,
                 fotoProfil: imgUrl,
                 Group: []
-            })
+            }, {merge: true})
+        firestore().collection("Contacts").doc(auth().currentUser.uid)
+            .set({
+                bio: bio,
+                contactIn: [],
+                displayFoto: imgUrl,
+                displayName: nama,
+                id: auth().currentUser.uid
+            }, {merge: true})
             .then(()=> {
                 console.log("User berhasil dibuat!");
                 navigation.replace("HomeScreen");
@@ -89,11 +97,6 @@ const CreateAccountScreen = ({navigation}) => {
     
           setUploading(false);
           setImage(null);
-    
-          // Alert.alert(
-          //   'Image uploaded!',
-          //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
-          // );
           return url;
         } catch (e) {
           console.log(e);
@@ -222,7 +225,6 @@ const CreateAccountScreen = ({navigation}) => {
                         autoCorrect={false}
                         value={bio}
                         onChangeText={(text) => setBio(text)}
-                        onSubmitEditing={createAccount}
                     />
                 </View>
                 
@@ -233,15 +235,6 @@ const CreateAccountScreen = ({navigation}) => {
                 >
                     <Text style={{color: "#FFF", fontSize: 20, fontWeight: "bold"}}>Buat Akun</Text>
                 </TouchableOpacity>
-
-                {/* <TouchableOpacity onPress={()=> navigation.replace("Home")} activeOpacity={0.5}>
-                    <View style={styles.buttonOutline}>
-                        <Text style={{color: "#42C294", fontSize: 20, fontWeight: "bold"}}>Home</Text>
-                    </View>
-                </TouchableOpacity> */}
-                {/* <TouchableOpacity onPress={signOutUser}>
-                    <Text>Log Out</Text>
-                </TouchableOpacity> */}
             </>
             </KeyboardAvoidingView>
         </Animated.View>

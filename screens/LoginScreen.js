@@ -11,16 +11,6 @@ const LoginScreen = ({navigation})=> {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [code, setCode] = useState('');
 
-    // useEffect(()=> {
-    //     const unsubscribe = auth().onAuthStateChanged((user)=> {
-    //         if(user){
-    //             navigation.navigate("CreateAccount");
-    //         }
-    //     });
-
-    //     return unsubscribe;
-    // },[]);
-
     const signin = async ()=> {
         const confirmation = await auth().signInWithPhoneNumber('+62'+phoneNumber);
         setConfirm(confirmation);
@@ -31,14 +21,12 @@ const LoginScreen = ({navigation})=> {
         try {
             await confirm.confirm(code);
             console.log('Kode benar, berhasil login');
-            // navigation.navigate("CreateAccount");
         } catch (error) {
             ToastAndroid.show('Kode Salah.', ToastAndroid.SHORT)
             console.log('Kode salah!');
         }
     }
 
-    // const insets = useSafeAreaInsets();
     if (!confirm) {
 
         return (
