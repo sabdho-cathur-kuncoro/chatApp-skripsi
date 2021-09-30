@@ -19,9 +19,10 @@ const CreateChatPersonal = ({navigation, route}) => {
 
     const user = auth().currentUser.uid;
     const user2 = route.params.id; // UID of user 2
+    const users = [user , user2];
     
     const idPersonal = user +'_'+ user2;
-    console.log(idPersonal);
+    // console.log(idPersonal);
 
     useEffect(()=> {
         const unsubscribe = 
@@ -104,7 +105,7 @@ const CreateChatPersonal = ({navigation, route}) => {
         
         return unsubscribe;
     }, [route]);
-    // console.log("Data: ",messages);
+    console.log(users);
     return(
         <SafeAreaView style={{
             flex: 1,
@@ -126,9 +127,13 @@ const CreateChatPersonal = ({navigation, route}) => {
                         style={{marginLeft: 5, width: 32, height: 32, borderRadius: 10}}
                     />
                 </TouchableOpacity>
-                <View style={{marginLeft: 15}}>
+                <TouchableOpacity 
+                    activeOpacity={0.5}
+                    style={{marginLeft: 15}}
+                    onPress={()=> navigation.navigate("DetailUser", {idUser: users})}
+                >
                     <Text style={{fontSize: 22, color: "#fff"}}>{route.params.displayName}</Text>
-                </View>
+                </TouchableOpacity>
             </View>
 
             <KeyboardAvoidingView 

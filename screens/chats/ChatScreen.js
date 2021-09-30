@@ -28,7 +28,7 @@ const ChatScreen = ({navigation, route}) => {
     );
     const recipient = recipientSnapshot?.docs?.[0]?.data();
     const recipientUid = getRecipientUid(route.params.users, user);
-    // console.log(route.params.users);
+    console.log(route.params.users);
     const choosePhotoFromLibrary = ()=> {
         ImagePicker.openPicker({
             width: 800,
@@ -118,7 +118,7 @@ const ChatScreen = ({navigation, route}) => {
                     )}
                 </TouchableOpacity>
                 <TouchableOpacity
-                    activeOpacity={1} 
+                    activeOpacity={0.5} 
                     style={{marginLeft: 15}}
                     onPress={()=> navigation.navigate("DetailUser", {idUser: route.params.users})}
                 >

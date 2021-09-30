@@ -18,6 +18,7 @@ import ViewImageChat from './ViewImageChat';
 import PreviewGroupImage from './PreviewGroupImage';
 import ViewImageGroup from './ViewImageGroup';
 import ProfileStack from '../profile/ProfileStack';
+import ViewFotoGrup from './ViewFotoGrup';
 
 const ChatStack = createStackNavigator();
 
@@ -61,6 +62,7 @@ const ChatStackScreen = ({navigation, route}) => {
             <ChatStack.Screen name="PreviewImageGroup" options={{headerShown: false}} component={PreviewGroupImage} />
             <ChatStack.Screen name="ViewImageGroup" options={{headerShown: false}} component={ViewImageGroup} />
             <ChatStack.Screen name="ProfileStack" options={{headerShown: false}} component={ProfileStack} />
+            <ChatStack.Screen name="ViewFotoGrup" options={{headerShown: false}} component={ViewFotoGrup} />
         </ChatStack.Navigator>
     )
 }

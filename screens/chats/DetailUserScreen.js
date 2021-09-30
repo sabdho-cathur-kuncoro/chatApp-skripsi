@@ -49,14 +49,14 @@ const DetailUserScreen = ({navigation, route}) => {
                 )}
 
                 <View style={{height: 80, padding: 5, marginBottom: 5, marginHorizontal: 5}}>
-                    <Text style={{marginVertical: 5, color: "#42C294", fontSize: 18}}>Phone Number</Text>
-                    <Text style={{color: "#000", fontSize: 20}}>{recipient ? recipient.NomorHp : recipientUid[0]}</Text>
-                </View>
-                <View style={{width: "100%", borderWidth: 0.5, borderStyle: "solid"}}></View>
-                
-                <View style={{height: 80, padding: 5, marginBottom: 5, marginHorizontal: 5}}>
                     <Text style={{marginVertical: 5, color: "#42C294", fontSize: 18}}>Bio</Text>
                     <Text style={{color: "#000", fontSize: 20}}>{recipient ? recipient.bio : recipientUid[0]}</Text>
+                </View>
+                
+                <View style={{width: "100%", borderWidth: 0.5, borderStyle: "solid"}}></View>
+                <View style={{height: 80, padding: 5, marginBottom: 5, marginHorizontal: 5}}>
+                    <Text style={{marginVertical: 5, color: "#42C294", fontSize: 18}}>Phone Number</Text>
+                    <Text style={{color: "#000", fontSize: 20}}>{recipient ? recipient.NomorHp : recipientUid[0]}</Text>
                 </View>
                 <View style={{width: "100%", borderWidth: 0.5, borderStyle: "solid"}}></View>
         </View>
