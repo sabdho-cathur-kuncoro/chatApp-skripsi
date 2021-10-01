@@ -203,6 +203,9 @@ const ProfileScreen = ({navigation}) => {
         return unsubscribe;
     }, []);
 
+    const signOut = ()=> {
+        auth().signOut()
+    }
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="light-content" backgroundColor="#A1C6B9" />
@@ -298,7 +301,17 @@ const ProfileScreen = ({navigation}) => {
                 <TouchableOpacity style={{marginRight: 5}} onPress={navigation.goBack}>
                     <AntDesign name="arrowleft" size={32} color="white" />
                 </TouchableOpacity>
-                <Text style={{fontSize: 28, fontWeight: "bold", color: "#FFF"}}>Profile</Text>
+                <View style={{height: 50, width: 260, justifyContent: "center"}}>
+                    <Text style={{fontSize: 28, fontWeight: "bold", color: "#FFF"}}>Profile</Text>
+                </View>
+                <TouchableOpacity 
+                    activeOpacity={0.7}
+                    onPress={signOut}
+                    style={{flexDirection: "row", backgroundColor:"#FFF", height: 30, alignItems: "center", justifyContent: "center", width: 85, borderRadius: 8}}
+                >
+                    <AntDesign name="logout" size={20} color="#f73123" />
+                    <Text style={{color: "#f73123", marginLeft: 5}}>Log Out</Text>
+                </TouchableOpacity>
             </View>
             
 
@@ -384,7 +397,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#A1C6B9",
         alignItems: "center",
         flexDirection: "row",
-        padding: 10
+        padding: 10,
+        justifyContent: "space-between"
     },
     image: {
         alignItems: "center",

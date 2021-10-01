@@ -25,7 +25,6 @@ LogBox.ignoreLogs(['all']);
 const Stack = createStackNavigator();
 
 export default function App(){
-  // Set an initializing state whilst Firebase connects
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
 
@@ -37,7 +36,7 @@ export default function App(){
 
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-        return subscriber; // unsubscribe on unmount
+        return subscriber;
     }, []);
 
     if (initializing) return null;
@@ -45,13 +44,6 @@ export default function App(){
   return(
     <NavigationContainer>
       {user ? <AppStack /> : <LoginScreen />}
-      {/* <Stack.Navigator 
-        // initialRouteName="CreateAccount"
-      >
-        <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
-        <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen} />
-        <Stack.Screen name="CreateAccount" options={{headerShown: false}} component={CreateAccountScreen} />
-      </Stack.Navigator> */}
     </NavigationContainer>
   );
 }

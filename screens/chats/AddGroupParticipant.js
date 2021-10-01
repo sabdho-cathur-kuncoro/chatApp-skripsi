@@ -29,7 +29,7 @@ const AddGroupParticipant = ({navigation, route}) => {
         return unsubscribe;
     }, []);
 
-    const tambahAnggota = (id,displayName, displayFoto, bio)=> {
+    const tambahAnggota = (id)=> {
         firestore().collection("Users")
                     .doc(id)
                     .set({

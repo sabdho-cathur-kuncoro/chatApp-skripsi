@@ -42,12 +42,12 @@ const CreateAccountScreen = ({navigation}) => {
                 Nama: nama,
                 bio: bio,
                 fotoProfil: imgUrl,
-                Group: []
+                // Group: []
             }, {merge: true})
         firestore().collection("Contacts").doc(auth().currentUser.uid)
             .set({
                 bio: bio,
-                contactIn: [],
+                // contactIn: [],
                 displayFoto: imgUrl,
                 displayName: nama,
                 id: auth().currentUser.uid

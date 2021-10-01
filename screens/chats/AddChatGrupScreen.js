@@ -142,9 +142,9 @@ const AddChatScreen = ({ navigation }) => {
             // Menambahkan User ke Grup
             firestore().collection("Users")
                 .doc(user)
-                .update({
+                .set({
                     Group: firestore.FieldValue.arrayUnion(idGrup)
-                })
+                },{merge: true})
 
             // Membuat Pesan Grup pada database
             firestore().collection("groupChat")
