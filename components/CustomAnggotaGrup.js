@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react'
-import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, StyleSheet, RefreshControl } from 'react-native'
+import React from 'react'
+import { ListItem } from 'react-native-elements'
+import { Image } from 'react-native'
 
 const CustomAnggotaGrup = ({id, Nama, fotoProfil, bio, enterUser}) => {
     return (

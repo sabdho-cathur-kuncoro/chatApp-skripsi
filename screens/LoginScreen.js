@@ -1,13 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, SafeAreaView, View, TextInput, TouchableOpacity, Text, StatusBar, ToastAndroid, KeyboardAvoidingView} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import firestore from '@react-native-firebase/firestore';
 
-
-const LoginScreen = ({navigation})=> {
+const LoginScreen = ()=> {
     // If null, no SMS has been sent
-    const [confirm, setConfirm] = useState(null);
+    const [confirm, setConfirm] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [code, setCode] = useState('');
 

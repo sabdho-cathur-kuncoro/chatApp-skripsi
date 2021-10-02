@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, Image, TouchableOpacity, SafeAreaView, StyleSheet, StatusBar, TextInput, KeyboardAvoidingView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, SafeAreaView, StyleSheet, StatusBar, TextInput } from 'react-native'
 import auth, { firebase } from '@react-native-firebase/auth'
 import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
@@ -61,7 +61,6 @@ const PreviewGroupImage = ({navigation, route}) => {
     };
 
     const updateFoto = async() => {
-        // await uploadImage();
         let imgUrl = await uploadImage();
 
         if(imgUrl == null) {
@@ -82,9 +81,7 @@ const PreviewGroupImage = ({navigation, route}) => {
             navigation.goBack
         )
     }
-    console.log(route.params.idPengirim);
-    console.log(route.params.namaPengirim);
-    console.log(route.params.fotoPengirim);
+
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: "#000"}}>
             
@@ -105,7 +102,6 @@ const PreviewGroupImage = ({navigation, route}) => {
                 <TextInput 
                     value={input}
                     onChangeText={(text)=> setInput(text)}
-                    // onSubmitEditing={updateFoto}
                     placeholder="Ketik pesan.."
                     style={{color: "#FFF", fontSize: 14}}
                 />
@@ -140,7 +136,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#5c5b5b",
         borderRadius: 30,
         paddingHorizontal: 15,
-        // paddingVertical: 10,
         borderColor: "transparent",
         color: "grey",
         flexDirection: "row",

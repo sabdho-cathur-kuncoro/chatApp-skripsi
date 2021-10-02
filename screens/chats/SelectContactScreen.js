@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
 
-import auth, { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import CustomListContacts from '../../components/CustomListContacts';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const ContactScreen = ({navigation}) => {
     const [contacts, setContacts] = useState([]);
-    
     const user = auth().currentUser.uid;
 
     const getContact = ()=> {
@@ -30,12 +29,6 @@ const ContactScreen = ({navigation}) => {
         return unsubscribe;
     }, []);
 
-
-    const chatAlreadyExists = (recipientUid) => 
-        !!chatsSnapshot?.docs.find(
-            (chat) =>
-                chat.data().users.find((user)=> user === recipientUid)?.length > 0
-        );
     const createChat = (id,displayName,displayFoto)=> {
         navigation.navigate("CreateChatPersonal",{
             id,

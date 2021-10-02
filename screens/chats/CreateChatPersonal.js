@@ -5,9 +5,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment'
-
 import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -18,11 +16,10 @@ const CreateChatPersonal = ({navigation, route}) => {
     const scrollViewRef = useRef();
 
     const user = auth().currentUser.uid;
-    const user2 = route.params.id; // UID of user 2
+    const user2 = route.params.id; // UID user 2
     const users = [user , user2];
     
-    const idPersonal = user +'_'+ user2;
-    // console.log(idPersonal);
+    const idPersonal = user +'_'+ user2; // ID Personal Chat
 
     useEffect(()=> {
         const unsubscribe = 
@@ -44,6 +41,7 @@ const CreateChatPersonal = ({navigation, route}) => {
         return unsubscribe;
     },[])
 
+    // Pilih Gambar dari Galeri
     const choosePhotoFromLibrary = ()=> {
         ImagePicker.openPicker({
             width: 800,
@@ -53,16 +51,14 @@ const CreateChatPersonal = ({navigation, route}) => {
           }).then((image) => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-            // setImage(imageUri);
             navigation.navigate("PreviewImage", {
                 image: imageUri,
                 chatID: idPersonal
             })
           });
     }
-    // console.log(route.params.id);
-    // console.log("idPersonal ",route.params.idPersonal);
-    
+
+    // Kirim Pesan
     const sendMessage = ()=> {
         firestore()
             .collection("personalChat")
@@ -89,6 +85,7 @@ const CreateChatPersonal = ({navigation, route}) => {
         createChatlist();
     }
 
+    // Menampilkan isi bubble chat
     useLayoutEffect(() => {
         const unsubscribe = firestore()
                             .collection("personalChat")
@@ -105,13 +102,15 @@ const CreateChatPersonal = ({navigation, route}) => {
         
         return unsubscribe;
     }, [route]);
-    console.log(users);
+
     return(
         <SafeAreaView style={{
             flex: 1,
             backgroundColor: "#FFF"}}
         >
             <StatusBar style="light-content" backgroundColor="#A1C6B9" />
+            
+            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity 
                     activeOpacity={0.5}
@@ -122,7 +121,6 @@ const CreateChatPersonal = ({navigation, route}) => {
                     <Image 
                         source={{ 
                             uri: route.params.displayFoto
-                            // "https://cdn.popbela.com/content-images/post/20210108/elon-musk-4bd53f33cfc95bda8ccc9d3386f26408.jpg"
                         }}
                         style={{marginLeft: 5, width: 32, height: 32, borderRadius: 10}}
                     />
@@ -142,9 +140,11 @@ const CreateChatPersonal = ({navigation, route}) => {
             >
                 <>
                 <ScrollView 
-                ref={scrollViewRef}
-                onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-                contentContainerStyle={{backgroundColor: "#FFF", paddingTop: 15}}>
+                    ref={scrollViewRef}
+                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+                    contentContainerStyle={{backgroundColor: "#FFF", paddingTop: 15}}
+                >
+                            {/* Bubble Chat */}
                             {messages.map(({id, data})=> (
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
@@ -181,6 +181,7 @@ const CreateChatPersonal = ({navigation, route}) => {
                                     </View>
                                 )
                             ))}
+                            {/* End Bubble Chat */}
                 </ScrollView>
 
                 <View style={styles.footer}>
@@ -227,16 +228,15 @@ const styles = StyleSheet.create({
     },
     bubbles: {
         width: "100%", 
-        // backgroundColor: "#ECECEC",
         flexDirection: "row", 
         justifyContent: "flex-end"
     },
     bubblesReceiver: {
         width: "100%", 
-        // backgroundColor: "#ECECEC",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
+        marginLeft: 5
     },
     receiver: {
         padding: 15,
@@ -252,9 +252,7 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 16,
         textAlign: "left",
-        // fontWeight: "700",
         marginLeft: 10,
-        // paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -272,7 +270,6 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         fontSize: 16,
         textAlign: "right",
-        // fontWeight: "700",
         marginLeft: 10,
     },
     timeReceiver: {
@@ -286,7 +283,6 @@ const styles = StyleSheet.create({
     },
     timeSender: {
         color: "#001000",
-        // position: "absolute",
         bottom: 0,
         right: 0,
         textAlign: "right",
@@ -307,7 +303,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#ECECEC",
         borderRadius: 30,
         paddingHorizontal: 15,
-        // paddingVertical: 10,
         borderColor: "transparent",
         color: "grey",
         flexDirection: "row",

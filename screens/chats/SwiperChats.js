@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import Swiper from 'react-native-swiper'
-
 import ChatsListScreen from './ChatsListScreen'
 import GrupChatsList from './GrupChatsList'
 

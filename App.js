@@ -15,8 +15,6 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
-import CreateAccountScreen from './screens/CreateAccountScreen';
-import HomeScreen from './screens/HomeScreen';
 import AppStack from './screens/AppStack';
 
 import auth from '@react-native-firebase/auth';

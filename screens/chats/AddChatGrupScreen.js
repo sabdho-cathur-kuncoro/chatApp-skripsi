@@ -1,11 +1,9 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-
 import auth, { firebase } from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
@@ -102,7 +100,6 @@ const AddChatScreen = ({ navigation }) => {
             headerStyle: {backgroundColor: "#A1C6B9", elevation: 0},
             headerTintColor: "#FFF",
             headerTitleAlign: "center",
-            // headerBackTitle: "Chats",
             headerLeft: ()=> (
                     <TouchableOpacity 
                         style={{marginLeft: 10, flexDirection: "row", alignItems: "center"}}

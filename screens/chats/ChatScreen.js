@@ -1,18 +1,15 @@
-import React, { useEffect, useState, useLayoutEffect, useRef } from 'react'
+import React, { useState, useLayoutEffect, useRef } from 'react'
 import { 
     View, Text, ScrollView, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, Image, KeyboardAvoidingView, TextInput 
 } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment'
-
 import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import getRecipientUid from '../../utils/getRecipientUid';
-
 import ImagePicker from 'react-native-image-crop-picker';
 
 const ChatScreen = ({navigation, route}) => {
@@ -28,7 +25,8 @@ const ChatScreen = ({navigation, route}) => {
     );
     const recipient = recipientSnapshot?.docs?.[0]?.data();
     const recipientUid = getRecipientUid(route.params.users, user);
-    console.log(route.params.users);
+
+    // Pilih Foto dari Galeri
     const choosePhotoFromLibrary = ()=> {
         ImagePicker.openPicker({
             width: 800,
@@ -38,7 +36,6 @@ const ChatScreen = ({navigation, route}) => {
           }).then((image) => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-            // setImage(imageUri);
             navigation.navigate("PreviewImage", {
                 image: imageUri,
                 chatID: route.params.id
@@ -46,7 +43,9 @@ const ChatScreen = ({navigation, route}) => {
           });
     }
     
+    // Kirim Pesan
     const sendMessage = ()=> {
+        // Menambahkan Pesan ke Database
         firestore().collection("personalChat")
             .doc(route.params.id)
             .collection("pesanPersonal")
@@ -73,6 +72,7 @@ const ChatScreen = ({navigation, route}) => {
         createChatlist();
     }
 
+    // Menampilkan isi chat bubble
     useLayoutEffect(() => {
         const unsubscribe = firestore()
                             .collection("personalChat")
@@ -132,9 +132,11 @@ const ChatScreen = ({navigation, route}) => {
             >
                 <>
                 <ScrollView 
-                ref={scrollViewRef}
-                onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-                contentContainerStyle={{backgroundColor: "#FFF", paddingTop: 15}}>
+                    ref={scrollViewRef}
+                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+                    contentContainerStyle={{backgroundColor: "#FFF", paddingTop: 15}}
+                >
+                            {/* Bubble Chat */}
                             {messages.map(({id, data, waktu})=> (
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
@@ -171,6 +173,7 @@ const ChatScreen = ({navigation, route}) => {
                                     </View>
                                 )
                             ))}
+                            {/* End Bubble Chat */}
                 </ScrollView>
 
                 <View style={styles.footer}>
@@ -206,7 +209,6 @@ const styles = StyleSheet.create({
         flex: 0.1, 
         backgroundColor: "#A1C6B9", 
         borderBottomEndRadius: 20, 
-        // elevation: 1, 
         flexDirection: "row",
         alignItems: "center",
     },
@@ -216,16 +218,15 @@ const styles = StyleSheet.create({
     },
     bubbles: {
         width: "100%",
-        // backgroundColor: "#ECECEC",
         flexDirection: "row", 
         justifyContent: "flex-end"
     },
     bubblesReceiver: {
         width: "100%", 
-        // backgroundColor: "#ECECEC",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
+        marginLeft: 5
     },
     receiver: {
         padding: 15,
@@ -241,9 +242,7 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 16,
         textAlign: "left",
-        // fontWeight: "700",
         marginLeft: 10,
-        // paddingLeft: 5,
     },
     sender: {
         position: "relative",
@@ -261,7 +260,6 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         fontSize: 16,
         textAlign: "right",
-        // fontWeight: "700",
         marginLeft: 10,
     },
     timeReceiver: {
@@ -275,7 +273,6 @@ const styles = StyleSheet.create({
     },
     timeSender: {
         color: "#001000",
-        // position: "absolute",
         bottom: 0,
         right: 0,
         textAlign: "right",
@@ -296,7 +293,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#ECECEC",
         borderRadius: 30,
         paddingHorizontal: 15,
-        // paddingVertical: 10,
         borderColor: "transparent",
         color: "grey",
         flexDirection: "row",

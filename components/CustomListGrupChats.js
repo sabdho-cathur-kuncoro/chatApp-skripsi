@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react'
-import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, Text, StyleSheet, RefreshControl, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ListItem } from 'react-native-elements'
+import { View, Image, Text, TouchableOpacity } from 'react-native'
 import moment from 'moment'
 
-import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import AntDesign from "react-native-vector-icons/AntDesign"
 
@@ -35,7 +34,6 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup, detailGrup}) =
         return unsubscribe;
     }, []);
 
-    
     return (
         <ListItem
                 containerStyle={{height: 80}}
@@ -63,7 +61,7 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup, detailGrup}) =
                             ):(
                                 <Text>{chatMessages.namaPengirim}: </Text>
                             )}
-                            <Text>{chatMessages.isiPesan}</Text>
+                            <Text ellipsizeMode="tail">{chatMessages.isiPesan}</Text>
                             </>
                         ):(
                             <View style={{flexDirection: "row"}}>
@@ -74,7 +72,7 @@ const CustomListGrupChats = ({id, namaGrup, fotoGrup, enterGroup, detailGrup}) =
                             )}
                             <View style={{flexDirection: "row", right: 0}}>
                                 <AntDesign name="picture" size={20} color="#8c8f8e" style={{marginRight: 5}} />
-                                <Text style={{color: "#8c8f8e"}}>{chatMessages.isiPesan === null ? "Image" : chatMessages.isiPesan}</Text>
+                                <Text style={{color: "#8c8f8e"}} ellipsizeMode="tail">{chatMessages.isiPesan === null ? "Image" : chatMessages.isiPesan}</Text>
                             </View>
                             </View>
                         )}

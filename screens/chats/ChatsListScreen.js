@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, StatusBar, ScrollView, SafeAreaView, StyleSheet, Image } from 'react-native'
 import { FAB, Portal, Provider } from 'react-native-paper';
-
 import CustomListChats from '../../components/CustomListChats';
-
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
@@ -25,13 +23,14 @@ const ChatsListScreen = ({navigation}) => {
         })
     },[]);
 
-    // console.log(userData);
+    // Buka Chat
     const enterChat = (id, users)=> {
         navigation.navigate("ChatScreen", {
             id,
             users
         })
     }
+    // Buka Detail User
     const detailUser = (users)=> {
         navigation.navigate("DetailUser",{
             idUser: users
@@ -46,6 +45,7 @@ const ChatsListScreen = ({navigation}) => {
           >
             <StatusBar style="light-content" backgroundColor="#A1C6B9" />
 
+            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity 
                     activeOpacity={0.7}
@@ -55,6 +55,9 @@ const ChatsListScreen = ({navigation}) => {
                     <Image source={{uri: userData.fotoProfil}} style={{width: 38, height: 38, borderRadius: 10, marginLeft: 20}} />
                     <Text style={{marginLeft: 5, color: "#FFF", fontSize: 18, fontWeight: "bold"}}>{userData.Nama}</Text>
                 </TouchableOpacity>
+            </View>
+
+            <View style={{alignItems: "center"}}>
                 <Text style={{ fontSize: 30, color: "white", fontWeight: "bold"}}>Personal</Text>
             </View>
             
@@ -74,6 +77,7 @@ const ChatsListScreen = ({navigation}) => {
                     ))}
                 </ScrollView>
                 
+                {/* FAB */}
                 <Provider>
                 <Portal>
                     <FAB.Group
@@ -111,11 +115,11 @@ export default ChatsListScreen
 
 const styles = StyleSheet.create({
     header: {
-        flex: 0.2, 
+        flex: 0.1, 
         backgroundColor: "#A1C6B9", 
-        flexDirection: "column", 
+        flexDirection: "row", 
         alignItems: "center", 
-        justifyContent: "center"
+        justifyContent: "space-between"
     },
     body: {
         flex: 1, 

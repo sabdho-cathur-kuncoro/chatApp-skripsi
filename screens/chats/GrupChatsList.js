@@ -1,21 +1,13 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, Image, StatusBar, ScrollView, SafeAreaView, StyleSheet } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SpeedDial } from 'react-native-elements';
-// import { FAB } from 'react-native-elements';
 import { FAB, Portal, Provider } from 'react-native-paper';
-
 import CustomListGrupChats from '../../components/CustomListGrupChats';
-import { Icon } from 'react-native-vector-icons/Feather';
-
-import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 const GrupChatsList = ({navigation}) => {
     const [ state, setState ] = useState({ open: false });
     const [ groupChat, setGroupChat ] = useState([]);
-    const [ groupChatslist, setGroupChatslist ] = useState([]);
     const [userData, setUserData] = useState([]);
 
     const onStateChange = ({ open }) => setState({ open });
@@ -29,7 +21,6 @@ const GrupChatsList = ({navigation}) => {
     },[]);
 
     const getData = ()=> {
-
         firestore().collection('groupChat')
                         .where('anggotaGrup', 'array-contains', user)
                         .orderBy('listWaktu', 'desc')
@@ -44,7 +35,8 @@ const GrupChatsList = ({navigation}) => {
         const unsubscribe = getData();
         return unsubscribe;
     },[])
-    // console.log(groupChat.anggotaGrup);
+
+    // Masuk ke Chat Screen Grup
     const enterGroup = (id, namaGrup, fotoGrup)=> {
         navigation.navigate("GrupChatScreen", {
             id,
@@ -52,6 +44,7 @@ const GrupChatsList = ({navigation}) => {
             fotoGrup
         })
     }
+    // Masuk ke Detail Grup Screen
     const detailGrup = (id)=> {
         navigation.navigate("DetailGroup", {
             idGrup: id,
@@ -66,15 +59,19 @@ const GrupChatsList = ({navigation}) => {
           >
             <StatusBar style="light-content" backgroundColor="#A1C6B9" />
 
+            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={()=> navigation.navigate("ProfileStack")}
                     style={{alignSelf: "flex-start", flexDirection: "row", alignItems: "center", marginTop: 5}}
                 >
-                    <Image source={{uri: userData.fotoProfil}} style={{width: 38, height: 38, borderRadius: 10, marginLeft: 20}} />
+                    <Image source={{uri: userData.fotoProfil || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}} style={{width: 38, height: 38, borderRadius: 10, marginLeft: 20}} />
                     <Text style={{marginLeft: 5, color: "#FFF", fontSize: 18, fontWeight: "bold"}}>{userData.Nama}</Text>
                 </TouchableOpacity>
+            </View>
+
+            <View style={{alignItems: "center"}}>
                 <Text style={{ fontSize: 30, color: "white", fontWeight: "bold"}}>Groups</Text>
             </View>
             
@@ -82,7 +79,6 @@ const GrupChatsList = ({navigation}) => {
                 <ScrollView style={{marginTop: 50}}
                 >
                     {
-                    // groupChatslist.map(({id})=> (
                         groupChat.map(({id,data: {namaGrup,fotoGrup }})=> (
                             <CustomListGrupChats 
                                 key={id}
@@ -93,11 +89,11 @@ const GrupChatsList = ({navigation}) => {
                                 detailGrup={detailGrup}
                             />
                         ))
-                    // ))
                     }
                     
                 </ScrollView>
                 
+                {/* FAB */}
                 <Provider>
                 <Portal>
                     <FAB.Group
@@ -135,11 +131,11 @@ export default GrupChatsList
 
 const styles = StyleSheet.create({
     header: {
-        flex: 0.2, 
+        flex: 0.1, 
         backgroundColor: "#A1C6B9", 
-        flexDirection: "column", 
+        flexDirection: "row", 
         alignItems: "center", 
-        justifyContent: "center"
+        justifyContent: "space-between"
     },
     body: {
         flex: 1, 

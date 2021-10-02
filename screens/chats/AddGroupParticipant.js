@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
-
-import auth, { firebase } from '@react-native-firebase/auth';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomTambahAnggota from '../../components/CustomTambahAnggota';
 
 const AddGroupParticipant = ({navigation, route}) => {
     const [contacts, setContacts] = useState([]);
+    const user = auth().currentUser;
 
-    const user = auth().currentUser;    
-
+    // Get data Contacts
     const getContact = ()=> {
         firestore()
             .collection('Contacts')
@@ -25,10 +24,10 @@ const AddGroupParticipant = ({navigation, route}) => {
     }
     useEffect(()=> {
         const unsubscribe = getContact();
-
         return unsubscribe;
     }, []);
 
+    // Tambah Anggota
     const tambahAnggota = (id)=> {
         firestore().collection("Users")
                     .doc(id)
@@ -44,9 +43,6 @@ const AddGroupParticipant = ({navigation, route}) => {
                     .then(navigation.goBack())
     }
 
-    // console.log(route.params.idGrup);
-    // console.log('User ',userData);
-    console.log('Data Contact ', contacts);
     return (
         <SafeAreaView style={{
             flex: 1,

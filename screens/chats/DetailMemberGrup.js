@@ -14,7 +14,6 @@ const DetailMemberGrup = ({navigation, route}) => {
                                         })
         return unsubscribe;
     },[]);
-    console.log(user);
 
     useLayoutEffect(()=> {
         navigation.setOptions({

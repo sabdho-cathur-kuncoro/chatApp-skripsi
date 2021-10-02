@@ -1,15 +1,8 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Pressable, Image, ImageBackground, ScrollView } from 'react-native';
-import { Button, Input } from 'react-native-elements';
-import ImagePicker from 'react-native-image-crop-picker';
-import Icon from "react-native-vector-icons/FontAwesome";
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Pressable, ImageBackground, ScrollView } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
-
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import CustomAnggotaGrup from '../../components/CustomAnggotaGrup';
 
@@ -74,6 +67,7 @@ const DetailGroupScreen = ({navigation, route}) => {
         return unsubscribe;
     },[])
 
+    // Melihat Detail User
     const enterUser = (id, Nama, fotoProfil, bio)=> {
         navigation.navigate("MemberGrup", {
             id,
@@ -83,6 +77,7 @@ const DetailGroupScreen = ({navigation, route}) => {
         })
     }
 
+    // Update Data Grup
     const updateNamaGrup = ()=> {
         firestore().collection("groupChat").doc(idGrup).update({
             namaGrup: namaGrup
@@ -101,7 +96,9 @@ const DetailGroupScreen = ({navigation, route}) => {
             setModalDeskripsi(!modalDeskripsi);
         })
     }
+    // Akhir Update Data Grup
 
+    // Keluar Grup
     const exitGrup = ()=> {
         firestore().collection("groupChat").doc(idGrup).update({
             anggotaGrup: firestore.FieldValue.arrayRemove(user)
@@ -115,6 +112,7 @@ const DetailGroupScreen = ({navigation, route}) => {
         )
     };
 
+    // Header
     useLayoutEffect(()=> {
         navigation.setOptions({
             title: "Grup Detail",
@@ -133,10 +131,11 @@ const DetailGroupScreen = ({navigation, route}) => {
             ),
         })
     }, []);
-    console.log(idGrup);
+
     return (
         <View style={{flex: 1, backgroundColor: "#ECECEC"}}>
             {/* Modal */}
+            {/* Modal Deskripsi */}
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -171,6 +170,7 @@ const DetailGroupScreen = ({navigation, route}) => {
                 </View>
             </Modal>
 
+            {/* Modal Nama Grup */}
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -207,6 +207,8 @@ const DetailGroupScreen = ({navigation, route}) => {
             {/* End of Modal */}
 
             <ScrollView>
+            
+            {/* Foto Grup */}
             <TouchableOpacity
                 activeOpacity={0.5}
                 onPress={()=> navigation.navigate("ViewFotoGrup", {idGrup: route.params.idGrup})}
@@ -230,6 +232,8 @@ const DetailGroupScreen = ({navigation, route}) => {
                 </View>
             </ImageBackground>
             </TouchableOpacity>
+
+            {/* Deskripsi Grup */}
             <View style={{backgroundColor: "#FFF", width: "100%", height: 62}}>
                 <View style={{paddingLeft: 5}}>
                     <Text style={{fontSize: 22, color: "#8ed1ba"}}>Description</Text>
@@ -243,11 +247,10 @@ const DetailGroupScreen = ({navigation, route}) => {
                     </TouchableOpacity>
                 </View>
             </View>
+
             <View style={{backgroundColor: "#FFF", marginTop: 10, width: "100%", flex: 1}}>
                 <View style={{paddingLeft: 5, justifyContent: "space-between"}}>
-                    
-                        <TouchableOpacity 
-                        // key={id}
+                    <TouchableOpacity 
                         style={{flexDirection: "row", alignItems: "center", marginVertical: 5}}
                         onPress={()=> navigation.navigate("AddParticipant", {idGrup: route.params.idGrup})}
                         activeOpacity={0.5}
@@ -260,9 +263,8 @@ const DetailGroupScreen = ({navigation, route}) => {
                     
                     <Text style={{fontSize: 22, color: "#8ed1ba"}}>{jumlahAnggota} Participants</Text>
 
-                {/* <ScrollView style={{flex: 1, backgroundColor: "#000"}}> */}
-                    {
-                        userData.map(({id,data: {Nama,fotoProfil,bio }})=> (
+                    {/* Custom Component Anggota Grup */}
+                    {userData.map(({id,data: {Nama,fotoProfil,bio }})=> (
                             <CustomAnggotaGrup 
                                 key={id}
                                 id={id}
@@ -271,11 +273,11 @@ const DetailGroupScreen = ({navigation, route}) => {
                                 bio={bio}
                                 enterUser={enterUser}
                             />
-                        ))
-                    }
-                {/* </ScrollView> */}
+                        ))}
                 </View>
             </View>
+
+            {/* Tombol Keluar Grup */}
             <TouchableOpacity
                 onPress={exitGrup} 
                 style={{backgroundColor: "#FFF", marginTop: 5, marginLeft: 10, flexDirection: "row", width: "100%", height: 50, alignItems: "center", justifyContent: "flex-start"}}
@@ -283,12 +285,10 @@ const DetailGroupScreen = ({navigation, route}) => {
                     <AntDesign name="logout" size={22} color="red" />
                     <Text style={{fontSize: 18, color: "red", marginLeft: 10}}>EXIT GROUP</Text>
             </TouchableOpacity>
-            </ScrollView>
 
+            </ScrollView>
         </View>
     )
 }
 
 export default DetailGroupScreen
-
-const styles = StyleSheet.create({})

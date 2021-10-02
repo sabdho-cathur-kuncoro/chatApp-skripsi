@@ -5,11 +5,8 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment'
-
 import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-
 import ImagePicker from 'react-native-image-crop-picker';
 
 const GrupChatScreen = ({navigation, route}) => {
@@ -18,9 +15,9 @@ const GrupChatScreen = ({navigation, route}) => {
     const [messages, setMessages] = useState([]);
     const scrollViewRef = useRef();
 
+    // Get User Data
     useEffect(()=> {
         const user = auth().currentUser.uid;
-
         const unsubscribe = firestore().collection('Users')
                                         .doc(user)
                                         .onSnapshot(documentSnapshot => {
@@ -46,7 +43,6 @@ const GrupChatScreen = ({navigation, route}) => {
           }).then((image) => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-            // setImage(imageUri);
             navigation.navigate("PreviewImageGroup", {
                 image: imageUri,
                 chatID: route.params.id,
@@ -58,7 +54,6 @@ const GrupChatScreen = ({navigation, route}) => {
     }
 
     const createChats = ()=> {
-
         firestore().collection("groupChat")
             .doc(route.params.id)
             .collection("pesanGrup")
@@ -78,6 +73,8 @@ const GrupChatScreen = ({navigation, route}) => {
                 listWaktu: firebase.firestore.FieldValue.serverTimestamp(),
             });
     }
+
+    // Isi Bubble Chat
     useLayoutEffect(() => {
         const unsubscribe = firestore()
                             .collection("groupChat")
@@ -107,6 +104,8 @@ const GrupChatScreen = ({navigation, route}) => {
             backgroundColor: "#FFF"}}
         >
             <StatusBar style="light-content" backgroundColor="#A1C6B9" />
+            
+            {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity 
                     activeOpacity={0.5}
@@ -137,9 +136,11 @@ const GrupChatScreen = ({navigation, route}) => {
             >
                 <>
                 <ScrollView 
-                ref={scrollViewRef}
-                onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-                contentContainerStyle={{backgroundColor: "#FFF", paddingTop: 15}}>
+                    ref={scrollViewRef}
+                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+                    contentContainerStyle={{backgroundColor: "#FFF", paddingTop: 15}}
+                >
+                            {/* Bubble Chat */}
                             {messages.map(({id, data, waktu})=> (
                                 data.idPengirim === auth().currentUser.uid ? (
                                     <View key={id} style={styles.bubbles}>
@@ -177,6 +178,7 @@ const GrupChatScreen = ({navigation, route}) => {
                                     </View>
                                 )
                             ))}
+                            {/* End Bubble Chat */}
                 </ScrollView>
                 <View style={styles.footer}>
                 <View style={styles.textInput}>

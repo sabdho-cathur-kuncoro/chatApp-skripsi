@@ -1,24 +1,23 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
+import React, { useLayoutEffect } from 'react'
+import { Text, View, TouchableOpacity, Image} from 'react-native'
 import firestore from '@react-native-firebase/firestore';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import getRecipientUid from '../../utils/getRecipientUid';
-import auth, { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 const DetailUserScreen = ({navigation, route}) => {
-    // const [user, setUser] = useState([]);
     const [user] = useAuthState(auth());
 
+    // Get Users dari firebase
     const [recipientSnapshot] = useCollection(
         firestore().collection("Users").where("uid", "==", getRecipientUid(route.params.idUser, user))
     );
     const recipient = recipientSnapshot?.docs?.[0]?.data();
     const recipientUid = getRecipientUid(route.params.idUser, user);
 
-    // console.log(recipient);
-
+    // Header
     useLayoutEffect(()=> {
         navigation.setOptions({
             title: recipient ? recipient.Nama : recipientUid[0],
@@ -38,6 +37,7 @@ const DetailUserScreen = ({navigation, route}) => {
             )
         })
     })
+    
     return (
         <View style={{flex: 1, backgroundColor: "#FFF"}}>
                 {recipient ? (
@@ -64,5 +64,3 @@ const DetailUserScreen = ({navigation, route}) => {
 }
 
 export default DetailUserScreen
-
-const styles = StyleSheet.create({})

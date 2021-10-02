@@ -14,7 +14,6 @@ const ViewFotoGrup = ({navigation, route}) => {
     useEffect(()=> {
         firestore().collection("groupChat")
         .doc(route.params.idGrup).onSnapshot(documentSnapshot=> {
-            // console.log(documentSnapshot.data())
             setDataGrup(documentSnapshot.data())
         })
     },[])
@@ -80,7 +79,6 @@ const ViewFotoGrup = ({navigation, route}) => {
     };
 
     const updateFotoGrup = async() => {
-        // await uploadImage();
         let imgUrl = await uploadImage();
 
         if(imgUrl == null) {
@@ -92,7 +90,7 @@ const ViewFotoGrup = ({navigation, route}) => {
                 fotoGrup: imgUrl
             })
     }
-    console.log(route.params.idGrup);
+
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: "#000"}}>
             <StatusBar backgroundColor="#000" />

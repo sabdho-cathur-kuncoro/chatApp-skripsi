@@ -11,7 +11,6 @@ const PreviewChatImage = ({navigation, route}) => {
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
     const [input, setInput] = useState("");
-
     const userLogin = auth().currentUser.uid;
 
     // Upload Image
@@ -82,7 +81,6 @@ const PreviewChatImage = ({navigation, route}) => {
         )
     }
 
-    console.log(route.params.image);
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: "#000"}}>
             
@@ -103,7 +101,6 @@ const PreviewChatImage = ({navigation, route}) => {
                 <TextInput 
                     value={input}
                     onChangeText={(text)=> setInput(text)}
-                    // onSubmitEditing={updateFoto}
                     placeholder="Ketik pesan.."
                     style={{color: "#FFF", fontSize: 14}}
                 />
@@ -116,7 +113,6 @@ const PreviewChatImage = ({navigation, route}) => {
                     </View>
                 </TouchableOpacity>
             </View>
-
         </SafeAreaView>
     )
 }
@@ -138,7 +134,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#5c5b5b",
         borderRadius: 30,
         paddingHorizontal: 15,
-        // paddingVertical: 10,
         borderColor: "transparent",
         color: "grey",
         flexDirection: "row",

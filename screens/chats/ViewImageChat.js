@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import { Image, StyleSheet, Text, View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native'
+import { Image, Text, View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native'
 import AntDesign from "react-native-vector-icons/AntDesign"
-import getRecipientUid from '../../utils/getRecipientUid';
-import auth, { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 const ViewImageChat = ({navigation, route}) => {
@@ -17,12 +14,8 @@ const ViewImageChat = ({navigation, route}) => {
         .onSnapshot(documentSnapshot => {
             setUser(documentSnapshot.data())
         });
-        // .onSnapshot((snapshot)=> {
-        //     setUser(snapshot.docs.map((doc)=>({data: doc.data()})))
-        // });
     },[])
-    console.log(user);
-    console.log(route.params.users);
+
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: "#000"}}>
             
@@ -46,5 +39,3 @@ const ViewImageChat = ({navigation, route}) => {
 }
 
 export default ViewImageChat
-
-const styles = StyleSheet.create({})

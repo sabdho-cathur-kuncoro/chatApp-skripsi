@@ -1,10 +1,7 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react'
-import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { ListItem } from 'react-native-elements'
+import { Image, TouchableOpacity } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-import auth, { firebase } from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 const CustomTambahAnggota = ({id,displayName,displayFoto,bio, tambahAnggota}) => {
     return (

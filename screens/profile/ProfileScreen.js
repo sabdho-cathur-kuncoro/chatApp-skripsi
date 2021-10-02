@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Modal, Pressable, Platform, KeyboardAvoidingView, Text, StyleSheet, StatusBar, ImageBackground, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Modal, Pressable, Platform, Text, StyleSheet, StatusBar, ImageBackground, SafeAreaView, TouchableOpacity } from 'react-native'
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -173,10 +173,12 @@ const ProfileScreen = ({navigation}) => {
     }
 
     const updateBio = ()=> {
+        // Update database Users
         firestore().collection('Users').doc(auth().currentUser.uid)
             .update({
                 bio: bio
             })
+        // Update database Contacts
         firestore().collection('Contacts').doc(auth().currentUser.uid)
             .update({
                 bio: bio
@@ -187,7 +189,7 @@ const ProfileScreen = ({navigation}) => {
             })
     }
 
-    // API Firebase
+    // API Firebase get user data
     const getUser = () => {
         firestore()
             .collection('Users')
@@ -203,6 +205,7 @@ const ProfileScreen = ({navigation}) => {
         return unsubscribe;
     }, []);
 
+    // Sign Out
     const signOut = ()=> {
         auth().signOut()
     }
@@ -223,6 +226,7 @@ const ProfileScreen = ({navigation}) => {
             />
 
             {/* Modal */}
+            {/* Modal Nama */}
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -257,6 +261,7 @@ const ProfileScreen = ({navigation}) => {
                 </View>
             </Modal>
 
+            {/* Modal Bio */}
             <Modal
                 animationType="fade"
                 transparent={true}

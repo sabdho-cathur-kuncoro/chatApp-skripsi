@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react'
-import { ListItem, Avatar } from 'react-native-elements'
-import { View, Image, StyleSheet, Text, RefreshControl, ImageBackground, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ListItem } from 'react-native-elements'
+import { View, Image, StyleSheet, Text, ImageBackground, TouchableOpacity } from 'react-native'
 import moment from 'moment'
-import CustomListGrupChats from './CustomListGrupChats';
 
-import auth, { firebase } from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -14,8 +12,6 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 
 const CustomListChats = ({id,users,enterChat, detailUser}) => {
     const [ chatMessages, setChatMessages ] = useState([]);
-    const [ userData, setUserData ] = useState([]);
-    const [ chatslist, setChatslist ] = useState([]);
     const [ waktu, setWaktu ] = useState([]);
 
     const [user] = useAuthState(auth());

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Platform, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity, StatusBar, SafeAreaView, ImageBackground } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
@@ -9,7 +9,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-
 
 const CreateAccountScreen = ({navigation}) => {
     const [image, setImage] = useState(null);
@@ -26,14 +25,9 @@ const CreateAccountScreen = ({navigation}) => {
     };
 
     // API Firebase
-
     // Create Account
     const createAccount = async() => {
         let imgUrl = await uploadImage();
-
-        // if( imgUrl == null && userData.userImg ) {
-        // imgUrl = userData.userImg;
-        // }
         
         firestore().collection('Users').doc(auth().currentUser.uid)
             .set({
@@ -42,12 +36,10 @@ const CreateAccountScreen = ({navigation}) => {
                 Nama: nama,
                 bio: bio,
                 fotoProfil: imgUrl,
-                // Group: []
             }, {merge: true})
         firestore().collection("Contacts").doc(auth().currentUser.uid)
             .set({
                 bio: bio,
-                // contactIn: [],
                 displayFoto: imgUrl,
                 displayName: nama,
                 id: auth().currentUser.uid

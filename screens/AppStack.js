@@ -1,7 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { View, Text } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from './LoginScreen';
 import CreateAccountScreen from './CreateAccountScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ChatStackScreen from './chats/ChatStackScreen';
