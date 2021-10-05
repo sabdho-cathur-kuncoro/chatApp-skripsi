@@ -99,10 +99,9 @@ const CreateAccountScreen = ({navigation}) => {
     // Action Choose Image
     const takePhotoFromCamera = ()=> {
         ImagePicker.openCamera({
-            compressImageMaxWidth: 300,
-            compressImageMaxHeight: 300,
+            compressImageMaxWidth: 800,
+            compressImageMaxHeight: 800,
             cropping: true,
-            compressImageQuality: 0.7
           }).then(image => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
@@ -112,10 +111,9 @@ const CreateAccountScreen = ({navigation}) => {
     }
     const choosePhotoFromLibrary = ()=> {
         ImagePicker.openPicker({
-            width: 300,
-            height: 300,
+            width: 800,
+            height: 800,
             cropping: true,
-            compressImageQuality: 0.7,
           }).then((image) => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
@@ -204,6 +202,7 @@ const CreateAccountScreen = ({navigation}) => {
                     <TextInput 
                         style={styles.textInput}
                         placeholder="Nama Lengkap"
+                        placeholderTextColor="#757474"
                         autoCorrect={false}
                         value={nama}
                         onChangeText={(text)=> setNama(text)}
@@ -214,6 +213,7 @@ const CreateAccountScreen = ({navigation}) => {
                     <TextInput 
                         style={styles.textInput}
                         placeholder="Bio"
+                        placeholderTextColor="#757474"
                         autoCorrect={false}
                         value={bio}
                         onChangeText={(text) => setBio(text)}

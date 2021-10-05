@@ -4,12 +4,12 @@ import auth from '@react-native-firebase/auth';
 
 const LoginScreen = ()=> {
     // If null, no SMS has been sent
-    const [confirm, setConfirm] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [code, setCode] = useState('');
+    const [confirm, setConfirm] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [code, setCode] = useState("");
 
     const signin = async ()=> {
-        const confirmation = await auth().signInWithPhoneNumber('+62'+phoneNumber);
+        const confirmation = await auth().signInWithPhoneNumber("+62"+phoneNumber);
         setConfirm(confirmation);
         console.log('mendapatkan kode OTP')
     }
@@ -45,7 +45,7 @@ const LoginScreen = ()=> {
                     <Text style={{fontSize: 20, color: "#000", padding: 6, borderRightWidth: 2}}>+62</Text>
                     <TextInput 
                         style={{fontSize: 20, marginLeft: 10, color: "#000"}}
-                        placeholder="8811223344"
+                        placeholder="8812341234"
                         value={phoneNumber} 
                         keyboardType="number-pad" 
                         onChangeText={text => setPhoneNumber(text)}
