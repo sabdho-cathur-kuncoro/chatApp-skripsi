@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "699761809702-q1fgn9e47v8c0i10i69ld8l4jmhitraj.apps.googleusercontent.com",
+          "client_id": "699761809702-cfmuenverj3ijo7au7b5cn35t8u3eu10.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.chat_skripsiw",
-            "certificate_hash": "785dded048f2a2a8648ac98de07ae2e8fe868cff"
+            "certificate_hash": "9fc97a3bf59d70fce19eea75f3d2a213ed9bcd86"
           }
         },
         {
