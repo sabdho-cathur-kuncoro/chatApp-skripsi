@@ -52,7 +52,7 @@ const ChatsListScreen = ({navigation}) => {
                     onPress={()=> navigation.navigate("ProfileStack")}
                     style={{alignSelf: "flex-start", flexDirection: "row", alignItems: "center", marginTop: 5}}
                 >
-                    <Image source={{uri: userData.fotoProfil}} style={{width: 38, height: 38, borderRadius: 10, marginLeft: 20}} />
+                    <Image source={{uri: userData.fotoProfil || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}} style={{width: 38, height: 38, borderRadius: 10, marginLeft: 20}} />
                     <Text style={{marginLeft: 5, color: "#FFF", fontSize: 18, fontWeight: "bold"}}>{userData.Nama}</Text>
                 </TouchableOpacity>
             </View>

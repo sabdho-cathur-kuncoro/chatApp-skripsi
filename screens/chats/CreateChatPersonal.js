@@ -191,6 +191,7 @@ const CreateChatPersonal = ({navigation, route}) => {
                             onChangeText={(text)=> setInput(text)}
                             onSubmitEditing={createChats}
                             placeholder="Ketik pesan.."
+                            placeholderTextColor="#757474"
                         />
                         <TouchableOpacity onPress={choosePhotoFromLibrary} activeOpacity={0.8} style={{justifyContent: "center"}}>
                             <AntDesign name="paperclip" size={28} color="#7a7878" />
@@ -304,7 +305,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         paddingHorizontal: 15,
         borderColor: "transparent",
-        color: "grey",
+        color: "#000",
         flexDirection: "row",
         justifyContent: "space-between"
     }

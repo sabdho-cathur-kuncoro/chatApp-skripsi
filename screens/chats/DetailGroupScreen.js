@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Pressable, ImageBackground, ScrollView } from 'react-native';
+import { SafeAreaView, Text, View, TouchableOpacity, Modal, TextInput, Pressable, ImageBackground, ScrollView } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -133,7 +133,7 @@ const DetailGroupScreen = ({navigation, route}) => {
     }, []);
 
     return (
-        <View style={{flex: 1, backgroundColor: "#ECECEC"}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: "#ECECEC"}}>
             {/* Modal */}
             {/* Modal Deskripsi */}
             <Modal
@@ -148,7 +148,7 @@ const DetailGroupScreen = ({navigation, route}) => {
                     <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
                         <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Deskripsi Grup</Text>
                         <TextInput 
-                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
+                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18, color: "#000"}}
                             value={deskripsiGrup}
                             maxLength={26}
                             onChangeText={(text)=> setDeskripsiGrup(text)}
@@ -183,7 +183,7 @@ const DetailGroupScreen = ({navigation, route}) => {
                     <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
                         <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Nama Grup</Text>
                         <TextInput 
-                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
+                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18, color: "#000"}}
                             value={namaGrup}
                             maxLength={26}
                             onChangeText={(text)=> setNamaGrup(text)}
@@ -251,7 +251,7 @@ const DetailGroupScreen = ({navigation, route}) => {
             <View style={{backgroundColor: "#FFF", marginTop: 10, width: "100%", flex: 1}}>
                 <View style={{paddingLeft: 5, justifyContent: "space-between"}}>
                     <TouchableOpacity 
-                        style={{flexDirection: "row", alignItems: "center", marginVertical: 5}}
+                        style={{padding: 10, flexDirection: "row", alignItems: "center", marginVertical: 5, borderBottomWidth: 0.5}}
                         onPress={()=> navigation.navigate("AddParticipant", {idGrup: route.params.idGrup})}
                         activeOpacity={0.5}
                     >
@@ -280,14 +280,14 @@ const DetailGroupScreen = ({navigation, route}) => {
             {/* Tombol Keluar Grup */}
             <TouchableOpacity
                 onPress={exitGrup} 
-                style={{backgroundColor: "#FFF", marginTop: 5, marginLeft: 10, flexDirection: "row", width: "100%", height: 50, alignItems: "center", justifyContent: "flex-start"}}
+                style={{backgroundColor: "#FFF", marginTop: 5, padding: 10, flexDirection: "row", width: "100%", height: 50, alignItems: "center", justifyContent: "flex-start"}}
             >
                     <AntDesign name="logout" size={22} color="red" />
                     <Text style={{fontSize: 18, color: "red", marginLeft: 10}}>EXIT GROUP</Text>
             </TouchableOpacity>
 
             </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 }
 

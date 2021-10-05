@@ -81,10 +81,9 @@ const AddChatScreen = ({ navigation }) => {
     }
     const choosePhotoFromLibrary = ()=> {
         ImagePicker.openPicker({
-            width: 300,
-            height: 300,
+            width: 800,
+            height: 800,
             cropping: true,
-            compressImageQuality: 0.7
           }).then(image => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;

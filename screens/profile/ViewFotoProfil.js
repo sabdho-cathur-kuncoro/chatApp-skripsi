@@ -15,7 +15,7 @@ const ViewFotoProfil = ({navigation,route}) => {
                 <AntDesign name="arrowleft" size={30} color="white" />
                 <Text style={{color: "#FFF",marginLeft: 15, fontSize: 20}}>Profile Photo</Text>
             </TouchableOpacity>
-            <Image source={{uri: route.params.foto}} style={{width: "100%", height: 400, marginTop: 80}} />
+            <Image source={{uri: route.params.foto || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"}} style={{width: "100%", height: 400, marginTop: 80}} />
         </SafeAreaView>
     )
 }

@@ -28,8 +28,6 @@ const ProfileScreen = ({navigation}) => {
 
     // Bottom Sheet
     const bs = React.useRef();
-    const bsName = React.useRef();
-    const bsBio = React.useRef();
     const fall = new Animated.Value(1);
 
     // Bottom Sheet Photo Profile
@@ -106,10 +104,9 @@ const ProfileScreen = ({navigation}) => {
     }
     const takePhotoFromCamera = ()=> {
         ImagePicker.openCamera({
-            compressImageMaxWidth: 300,
-            compressImageMaxHeight: 300,
+            compressImageMaxWidth: 800,
+            compressImageMaxHeight: 800,
             cropping: true,
-            compressImageQuality: 0.7
           }).then(image => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
@@ -120,10 +117,9 @@ const ProfileScreen = ({navigation}) => {
     }
     const choosePhotoFromLibrary = ()=> {
         ImagePicker.openPicker({
-            width: 300,
-            height: 300,
+            width: 800,
+            height: 800,
             cropping: true,
-            compressImageQuality: 0.7
           }).then(image => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
@@ -195,7 +191,6 @@ const ProfileScreen = ({navigation}) => {
             .collection('Users')
             .doc(user)
             .onSnapshot(documentSnapshot => {
-                console.log('User data: ', documentSnapshot.data());
                 setUserData(documentSnapshot.data());
             })
     }
@@ -239,7 +234,7 @@ const ProfileScreen = ({navigation}) => {
                     <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
                         <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Masukkan nama</Text>
                         <TextInput 
-                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
+                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18, color: "#000"}}
                             value={nama}
                             maxLength={26}
                             onChangeText={(text)=> setNama(text)}
@@ -274,7 +269,7 @@ const ProfileScreen = ({navigation}) => {
                     <View style={{width: 350, height: 150, backgroundColor: "#FFF", borderRadius: 20, elevation: 3}}>
                         <Text style={{fontSize: 20, paddingTop: 10, paddingLeft: 10, color: "#42C294", fontWeight: "bold"}}>Masukkan bio</Text>
                         <TextInput 
-                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18}}
+                            style={{borderBottomWidth: 1, borderColor: "#42C294", fontSize: 18, color: "#000"}}
                             value={bio}
                             selectTextOnFocus={true}
                             maxLength={20}
@@ -306,13 +301,13 @@ const ProfileScreen = ({navigation}) => {
                 <TouchableOpacity style={{marginRight: 5}} onPress={navigation.goBack}>
                     <AntDesign name="arrowleft" size={32} color="white" />
                 </TouchableOpacity>
-                <View style={{height: 50, width: 260, justifyContent: "center"}}>
+                <View style={{height: 50, width: 220, justifyContent: "center"}}>
                     <Text style={{fontSize: 28, fontWeight: "bold", color: "#FFF"}}>Profile</Text>
                 </View>
                 <TouchableOpacity 
                     activeOpacity={0.7}
                     onPress={signOut}
-                    style={{flexDirection: "row", backgroundColor:"#FFF", height: 30, alignItems: "center", justifyContent: "center", width: 85, borderRadius: 8}}
+                    style={{opacity: 0.8,flexDirection: "row", backgroundColor:"#FFF", height: 30, alignItems: "center", justifyContent: "center", width: 85, borderRadius: 8}}
                 >
                     <AntDesign name="logout" size={20} color="#f73123" />
                     <Text style={{color: "#f73123", marginLeft: 5}}>Log Out</Text>
@@ -344,7 +339,7 @@ const ProfileScreen = ({navigation}) => {
                                     borderRadius: 20,
                                     top: -28,
                                     right: -215,
-                                    // opacity: 0.8
+                                    opacity: 0.8
                                 }}>
                                 <Ionicons name="camera" size={26} color="#FFF" />
                             </View>
