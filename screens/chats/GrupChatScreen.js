@@ -149,7 +149,7 @@ const GrupChatScreen = ({navigation, route}) => {
                                                 <Text style={styles.senderText}>{data.isiPesan}</Text>                                                
                                                 ): (
                                                 <>
-                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImageGroup",{img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImageGroup",{img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim, waktu: waktu})}>
                                                     <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
                                                 </TouchableOpacity>
                                                 <Text>{data.isiPesan}</Text>
@@ -167,7 +167,7 @@ const GrupChatScreen = ({navigation, route}) => {
                                                 <Text style={styles.receiverText}>{data.isiPesan}</Text>
                                             ) : (
                                                 <>
-                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImageGroup", {img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImageGroup", {img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim, waktu: waktu})}>
                                                     <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
                                                 </TouchableOpacity>
                                                 <Text>{data.isiPesan}</Text>
@@ -188,6 +188,7 @@ const GrupChatScreen = ({navigation, route}) => {
                         onSubmitEditing={createChats}
                         placeholder="Ketik pesan.."
                         placeholderTextColor="#757474"
+                        style={{color: "#000"}}
                     />
                     <TouchableOpacity onPress={choosePhotoFromLibrary} activeOpacity={0.8} style={{justifyContent: "center"}}>
                         <AntDesign name="paperclip" size={28} color="#7a7878" />

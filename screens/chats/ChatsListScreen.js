@@ -88,6 +88,7 @@ const ChatsListScreen = ({navigation}) => {
                     actions={[
                         {
                         icon: 'forum',
+                        backgroundColor: "#FFF",
                         color: '#42C294',
                         label: 'Pesan Grup',
                         small: false,
@@ -95,6 +96,7 @@ const ChatsListScreen = ({navigation}) => {
                         },
                         {
                         icon: 'message',
+                        backgroundColor: "#FFF",
                         label: 'Pesan Personal',
                         color: '#42C294',
                         small: false,

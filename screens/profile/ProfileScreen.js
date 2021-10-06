@@ -354,7 +354,7 @@ const ProfileScreen = ({navigation}) => {
                     </View>
 
                     <View style={{alignItems: "center", justifyContent: "center"}}>
-                        <MaterialIcons name="edit" size={35} color="#42C294" />
+                        <MaterialIcons name="edit" size={30} color="#42C294" />
                     </View>
                 </TouchableOpacity>
 
@@ -366,7 +366,7 @@ const ProfileScreen = ({navigation}) => {
                     </View>
 
                     <View style={{alignItems: "center", justifyContent: "center"}}>
-                        <MaterialIcons name="edit" size={35} color="#42C294" />
+                        <MaterialIcons name="edit" size={30} color="#42C294" />
                     </View>
                 </TouchableOpacity>
 

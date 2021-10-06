@@ -120,7 +120,7 @@ const CreateChatPersonal = ({navigation, route}) => {
                     <AntDesign name="left" size={30} color="white" />
                     <Image 
                         source={{ 
-                            uri: route.params.displayFoto
+                            uri: route.params.displayFoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
                         }}
                         style={{marginLeft: 5, width: 32, height: 32, borderRadius: 10}}
                     />
@@ -192,6 +192,7 @@ const CreateChatPersonal = ({navigation, route}) => {
                             onSubmitEditing={createChats}
                             placeholder="Ketik pesan.."
                             placeholderTextColor="#757474"
+                            style={{color: "#000"}}
                         />
                         <TouchableOpacity onPress={choosePhotoFromLibrary} activeOpacity={0.8} style={{justifyContent: "center"}}>
                             <AntDesign name="paperclip" size={28} color="#7a7878" />

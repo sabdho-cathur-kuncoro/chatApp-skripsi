@@ -43,7 +43,7 @@ const DetailUserScreen = ({navigation, route}) => {
                 {recipient ? (
                     <Image
                     style={{width: "100%", height: 300, marginBottom: 10}}
-                    source={{uri: recipient?.fotoProfil}}
+                    source={{uri: recipient?.fotoProfil || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}}
                     />
                 ):(<Image style={{width: 42, height: 42, borderRadius: 10}} source={{uri: recipientUid[0]}} />
                 )}

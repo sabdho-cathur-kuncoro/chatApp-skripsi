@@ -32,7 +32,7 @@ const ChatScreen = ({navigation, route}) => {
             width: 800,
             height: 800,
             cropping: true,
-            compressImageQuality: 0.7,
+            compressImageQuality: 0.8,
           }).then((image) => {
             console.log(image);
             const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
@@ -112,7 +112,7 @@ const ChatScreen = ({navigation, route}) => {
                     {recipient ? (
                     <Image
                         style={{width: 38, height: 38, borderRadius: 9}}
-                        source={{uri: recipient?.fotoProfil}}
+                        source={{uri: recipient?.fotoProfil || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}}
                         />
                     ):(<Image style={{width: 42, height: 42, borderRadius: 10}} source={{uri: recipientUid[0]}} />
                     )}
@@ -145,7 +145,7 @@ const ChatScreen = ({navigation, route}) => {
                                                 <Text style={styles.senderText}>{data.isiPesan}</Text>
                                             ): (
                                                 <>
-                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage",{img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage",{img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim, waktu: waktu})}>
                                                     <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
                                                 </TouchableOpacity>
                                                 <Text>{data.isiPesan}</Text>
@@ -162,7 +162,7 @@ const ChatScreen = ({navigation, route}) => {
                                                 <Text style={styles.receiverText}>{data.isiPesan}</Text>
                                             ) : (
                                                 <>
-                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage", {img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim})}>
+                                                <TouchableOpacity activeOpacity={0.7} onPress={()=> navigation.navigate("ViewImage", {img: data.urlGambar, caption: data.isiPesan, users: data.idPengirim, waktu: waktu})}>
                                                     <Image source={{uri: data.urlGambar}} style={{width: 200, height: 200, borderRadius: 10}} />
                                                 </TouchableOpacity>
                                                 <Text>{data.isiPesan}</Text>
@@ -184,6 +184,7 @@ const ChatScreen = ({navigation, route}) => {
                         onSubmitEditing={createChats}
                         placeholder="Ketik pesan.."
                         placeholderTextColor="#757474"
+                        style={{color: "#000"}}
                     />
                     <TouchableOpacity onPress={choosePhotoFromLibrary} activeOpacity={0.8} style={{justifyContent: "center"}}>
                         <AntDesign name="paperclip" size={28} color="#7a7878" />
