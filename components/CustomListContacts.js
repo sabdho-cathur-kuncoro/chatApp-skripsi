@@ -14,7 +14,7 @@ const CustomListItem = ({ id, displayName, displayFoto, createChat }) => {
         >
             <Image
                 style={{width: 42, height: 42, borderRadius: 10}}
-                source={{uri: displayFoto}}
+                source={{uri: displayFoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}}
             />
             <ListItem.Content>
                 <ListItem.Title style={{fontWeight: "bold", fontSize: 16}}>

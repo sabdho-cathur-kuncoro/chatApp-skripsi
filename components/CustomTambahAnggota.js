@@ -12,7 +12,7 @@ const CustomTambahAnggota = ({id,displayName,displayFoto,bio, tambahAnggota}) =>
             bottomDivider
         >
             <Image 
-                source={{uri: displayFoto}}
+                source={{uri: displayFoto || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}}
                 style={{width: 44, height: 44, borderRadius: 12}}
             />
             <ListItem.Content>
