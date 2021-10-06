@@ -17,7 +17,7 @@ const ViewImageGroup = ({navigation, route}) => {
             setUser(documentSnapshot.data())
         });
     },[])
-    console.log(timestamp);
+
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: "#000"}}>
             
@@ -34,7 +34,7 @@ const ViewImageGroup = ({navigation, route}) => {
             </View>
             {/* End Header */}
         
-            <View style={{flex: 1, alignItems: "center"}}>
+            <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
                 <Image source={{uri : route.params.img}} style={{width: "100%", height: 400}} />
                 <Text style={{color: "#FFF", fontSize: 22, padding:15}}>{route.params.caption}</Text>
             </View>
