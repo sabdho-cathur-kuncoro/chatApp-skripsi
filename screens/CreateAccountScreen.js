@@ -16,38 +16,50 @@ const CreateAccountScreen = ({navigation}) => {
     const [transferred, setTransferred] = useState(0);
     const [nama, setNama] = useState('');
     const [bio, setBio] = useState('');
-
-    const signOutUser = ()=> {
-        auth().signOut().then(()=> {
-            navigation.replace("Login");
-            console.log("Berhasil Logout")
-        });
-    };
+    const userLogin = auth().currentUser.uid;
 
     // API Firebase
     // Create Account
     const createAccount = async() => {
         let imgUrl = await uploadImage();
         
-        firestore().collection('Users').doc(auth().currentUser.uid)
+        firestore().collection('Users').doc(userLogin)
             .set({
-                uid: auth().currentUser.uid,
+                uid: userLogin,
                 NomorHp: auth().currentUser.phoneNumber,
                 Nama: nama,
                 bio: bio,
                 fotoProfil: imgUrl,
             }, {merge: true})
-        firestore().collection("Contacts").doc(auth().currentUser.uid)
+        firestore().collection("Contacts").doc(userLogin)
             .set({
                 bio: bio,
                 displayFoto: imgUrl,
                 displayName: nama,
-                id: auth().currentUser.uid
+                id: userLogin
             }, {merge: true})
-            .then(()=> {
-                console.log("User berhasil dibuat!");
-                navigation.replace("HomeScreen");
-            })
+
+        // Set Dummy Contacts
+        const elon = "iYN0oBvpPkgSFZINxFJzwM1rsy83";
+        const jeff = "shxJcKEiE7bVcnEjHiEhCZgVyq12";
+        const admin = "a2eOJQ7L0rbblLxORdtvj4ju80u1";
+
+        firestore().collection("Contacts").doc(elon)
+            .set({
+                contactIn: firestore.FieldValue.arrayUnion(userLogin)
+            },{merge: true})
+        firestore().collection("Contacts").doc(jeff)
+            .set({
+                contactIn: firestore.FieldValue.arrayUnion(userLogin)
+            },{merge: true})
+        firestore().collection("Contacts").doc(admin)
+            .set({
+                contactIn: firestore.FieldValue.arrayUnion(userLogin)
+            },{merge: true})
+        .then(()=> {
+            console.log("User berhasil dibuat!");
+            navigation.replace("HomeScreen");
+        })
     }
     // End Create Account
     

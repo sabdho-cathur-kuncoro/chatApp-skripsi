@@ -25,7 +25,6 @@ const ContactScreen = ({navigation}) => {
 
     useEffect(()=> {
         const unsubscribe = getContact();
-
         return unsubscribe;
     }, []);
 
