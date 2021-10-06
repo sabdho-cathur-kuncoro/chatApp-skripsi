@@ -61,7 +61,7 @@ const CustomListChats = ({id,users,enterChat, detailUser}) => {
                     <TouchableOpacity activeOpacity={0.7} onPress={()=> detailUser(users)}>
                     <Image
                     style={{width: 42, height: 42, borderRadius: 10}}
-                    source={{uri: recipient?.fotoProfil}}
+                    source={{uri: recipient?.fotoProfil || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}}
                     />
                     </TouchableOpacity>
                 ):(
